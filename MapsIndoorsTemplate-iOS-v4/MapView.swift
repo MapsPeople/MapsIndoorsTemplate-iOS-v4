@@ -23,7 +23,7 @@ struct MapView: UIViewRepresentable {
         Task {
             do {
                 // Load MapsIndoors with the MapsIndoors API key
-                try await MPMapsIndoors.shared.load(apiKey: "YOUR_API_KEY")
+                try await MPMapsIndoors.shared.load(apiKey: "d876ff0e60bb430b8fabb145") // Test API
                 
                 if let mapControl = MPMapsIndoors.createMapControl(mapConfig: mapConfig) {
                     // Retain the mapControl object
