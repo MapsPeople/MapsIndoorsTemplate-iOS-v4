@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Atomics/Atomics.framework
+${BUILT_PRODUCTS_DIR}/ValueAnimator/ValueAnimator.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoors/MapsIndoors.framework/MapsIndoors
+${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsCore/MapsIndoorsCore.framework/MapsIndoorsCore
+${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsGoogleMaps/MapsIndoorsGoogleMaps.framework/MapsIndoorsGoogleMaps

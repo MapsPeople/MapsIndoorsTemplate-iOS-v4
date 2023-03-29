@@ -1,0 +1,47 @@
+PODS:
+  - Atomics (0.9.0)
+  - GoogleMaps (7.4.0):
+    - GoogleMaps/Maps (= 7.4.0)
+  - GoogleMaps/Base (7.4.0)
+  - GoogleMaps/Maps (7.4.0):
+    - GoogleMaps/Base
+  - MapsIndoors (4.0.0-beta7)
+  - MapsIndoorsCore (4.0.0-beta7):
+    - MapsIndoors (= 4.0.0-beta7)
+  - MapsIndoorsGoogleMaps (4.0.0-beta7):
+    - GoogleMaps (= 7.4.0)
+    - MapsIndoorsCore (= 4.0.0-beta7)
+    - ValueAnimator (= 0.6.8)
+  - ValueAnimator (0.6.8)
+
+DEPENDENCIES:
+  - Atomics (~> 0.9.0)
+  - MapsIndoors (from `/Users/fasa/MISDKIOS/`)
+  - MapsIndoorsCore (from `/Users/fasa/MISDKIOS/`)
+  - MapsIndoorsGoogleMaps (from `/Users/fasa/MISDKIOS/`)
+
+SPEC REPOS:
+  trunk:
+    - Atomics
+    - GoogleMaps
+    - ValueAnimator
+
+EXTERNAL SOURCES:
+  MapsIndoors:
+    :path: "/Users/fasa/MISDKIOS/"
+  MapsIndoorsCore:
+    :path: "/Users/fasa/MISDKIOS/"
+  MapsIndoorsGoogleMaps:
+    :path: "/Users/fasa/MISDKIOS/"
+
+SPEC CHECKSUMS:
+  Atomics: 03aac3c8c352cb9aa00a46fe95907d7839c592ab
+  GoogleMaps: 032f676450ba0779bd8ce16840690915f84e57ac
+  MapsIndoors: d6c55b2c9c53df6696f53f4b941d05b87f128396
+  MapsIndoorsCore: f4a36b6cb59eeff8fff95c41dff652e4b3846a49
+  MapsIndoorsGoogleMaps: 2f41e8afc13abb2ac2a2a87cd310a0d9b3d3358d
+  ValueAnimator: b9ed721f3a0fc682ec857fd70dc933b28adb7522
+
+PODFILE CHECKSUM: f871220de7f34def2d23eed7f8d1bebead2a7c6b
+
+COCOAPODS: 1.12.0

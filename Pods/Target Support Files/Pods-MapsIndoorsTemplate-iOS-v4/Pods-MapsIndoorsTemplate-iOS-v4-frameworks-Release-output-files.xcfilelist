@@ -1,0 +1,5 @@
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Atomics.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ValueAnimator.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapsIndoors.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapsIndoorsCore.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapsIndoorsGoogleMaps.framework

@@ -1,0 +1,6 @@
+framework module Atomics {
+  umbrella header "Atomics-umbrella.h"
+
+  export *
+  module * { export * }
+}
