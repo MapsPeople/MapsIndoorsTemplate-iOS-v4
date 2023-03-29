@@ -12,6 +12,8 @@
 		4D72756B29D4AD5000BB7556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D72756A29D4AD5000BB7556 /* Assets.xcassets */; };
 		4D72756E29D4AD5000BB7556 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D72756D29D4AD5000BB7556 /* Preview Assets.xcassets */; };
 		4D72757529D4B0E100BB7556 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72757429D4B0E100BB7556 /* MapView.swift */; };
+		4D72757729D4B67100BB7556 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72757629D4B67100BB7556 /* SearchBar.swift */; };
+		4D72757929D4B69500BB7556 /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72757829D4B69500BB7556 /* LocationList.swift */; };
 		8BF7B82AF0C90173E7272124 /* Pods_MapsIndoorsTemplate_iOS_v4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,8 @@
 		4D72756A29D4AD5000BB7556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D72756D29D4AD5000BB7556 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4D72757429D4B0E100BB7556 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		4D72757629D4B67100BB7556 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		4D72757829D4B69500BB7556 /* LocationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationList.swift; sourceTree = "<group>"; };
 		9C128E7C7C9FE80FB0B1C8E6 /* Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; sourceTree = "<group>"; };
 		FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsIndoorsTemplate_iOS_v4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -63,6 +67,8 @@
 				4D72756629D4AD4D00BB7556 /* MapsIndoorsTemplate_iOS_v4App.swift */,
 				4D72757429D4B0E100BB7556 /* MapView.swift */,
 				4D72756829D4AD4D00BB7556 /* ContentView.swift */,
+				4D72757629D4B67100BB7556 /* SearchBar.swift */,
+				4D72757829D4B69500BB7556 /* LocationList.swift */,
 				4D72756A29D4AD5000BB7556 /* Assets.xcassets */,
 				4D72756C29D4AD5000BB7556 /* Preview Content */,
 			);
@@ -227,8 +233,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D72756929D4AD4D00BB7556 /* ContentView.swift in Sources */,
+				4D72757729D4B67100BB7556 /* SearchBar.swift in Sources */,
 				4D72757529D4B0E100BB7556 /* MapView.swift in Sources */,
 				4D72756729D4AD4D00BB7556 /* MapsIndoorsTemplate_iOS_v4App.swift in Sources */,
+				4D72757929D4B69500BB7556 /* LocationList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

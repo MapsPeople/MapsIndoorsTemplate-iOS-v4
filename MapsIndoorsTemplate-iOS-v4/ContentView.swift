@@ -5,7 +5,8 @@ import MapsIndoorsGoogleMaps
 import GoogleMaps
 
 struct ContentView: View {
-    @State private var searchResult: [MPLocation]?
+    @State private var searchText = ""
+    @State private var searchResult: [IdentifiableLocation]?
     @State private var origin: MPLocation?
     @State private var mpMapControl: MPMapControl?
 
@@ -15,15 +16,36 @@ struct ContentView: View {
                 MapView(searchResult: $searchResult, origin: $origin, mpMapControl: $mpMapControl)
                     .edgesIgnoringSafeArea(.all)
 
-                // Add your search bar and other UI components here
+                VStack {
+                    SearchBar(text: $searchText, onTextDidChange: searchLocations)
+                    
+                    if let searchResult = searchResult {
+                        LocationList(locations: searchResult) { location in
+                            didSelect(location: location)
+                        }
+                    }
+                    
+                    Spacer()
+                }
             }
-            .navigationBarTitle("MapsIndoors v4 SwiftUI", displayMode: .inline)
+            .navigationBarTitle("MapsIndoors v4 SwiftUI Template", displayMode: .inline)
         }
     }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    func searchLocations(_ searchText: String) {
+        let query = MPQuery()
+        let filter = MPFilter()
+        query.query = searchText
+        filter.take = 100
+        Task {
+            let locations = await MPMapsIndoors.shared.locationsWith(query: query, filter: filter)
+            let identifiableLocations = locations.map { IdentifiableLocation(location: $0) }
+            searchResult = identifiableLocations
+        }
+    }
+
+    func didSelect(location: MPLocation) {
+        mpMapControl?.goTo(entity: location)
+        searchResult = nil
     }
 }

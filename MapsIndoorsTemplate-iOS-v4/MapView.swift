@@ -5,7 +5,7 @@ import MapsIndoorsGoogleMaps
 import GoogleMaps
 
 struct MapView: UIViewRepresentable {
-    @Binding var searchResult: [MPLocation]?
+    @Binding var searchResult: [IdentifiableLocation]?
     @Binding var origin: MPLocation?
     @Binding var mpMapControl: MPMapControl?
     
