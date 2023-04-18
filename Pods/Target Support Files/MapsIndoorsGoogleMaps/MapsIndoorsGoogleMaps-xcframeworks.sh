@@ -117,5 +117,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../../../MISDKIOS/release/4.0.0-beta7/MapsIndoorsGoogleMaps.xcframework" "MapsIndoorsGoogleMaps" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/MapsIndoorsGoogleMaps/MapsIndoorsGoogleMaps.xcframework" "MapsIndoorsGoogleMaps" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

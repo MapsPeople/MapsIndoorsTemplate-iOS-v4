@@ -6,13 +6,9 @@ target 'MapsIndoorsTemplate-iOS-v4' do
   use_frameworks!
 
   # Pods for MapsIndoorsTemplate-iOS-v4
-# Local development pod
-  pod 'MapsIndoorsCore', :path => '/Users/fasa/MISDKIOS/'
-  pod 'MapsIndoors', :path => '/Users/fasa/MISDKIOS/'
-  pod 'MapsIndoorsGoogleMaps', :path => '/Users/fasa/MISDKIOS/'
-  # Need the following for Google Maps SDK submodule to be built
-  pod 'Atomics', '~> 0.9.0'
-
+  pod 'MapsIndoorsCore', '~> 4.0.2'
+  pod 'MapsIndoors', '~> 4.0.2'
+  pod 'MapsIndoorsGoogleMaps', '~> 4.0.2'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))
