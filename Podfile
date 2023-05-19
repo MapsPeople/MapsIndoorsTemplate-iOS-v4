@@ -6,9 +6,7 @@ target 'MapsIndoorsTemplate-iOS-v4' do
   use_frameworks!
 
   # Pods for MapsIndoorsTemplate-iOS-v4
-  pod 'MapsIndoorsCore', '~> 4.0.2'
-  pod 'MapsIndoors', '~> 4.0.2'
-  pod 'MapsIndoorsGoogleMaps', '~> 4.0.2'
+  pod 'MapsIndoorsGoogleMaps', '4.1.0'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))
