@@ -6,7 +6,7 @@ target 'MapsIndoorsTemplate-iOS-v4' do
   use_frameworks!
 
   # Pods for MapsIndoorsTemplate-iOS-v4
-  pod 'MapsIndoorsGoogleMaps', '4.1.0'
+  pod 'MapsIndoorsGoogleMaps', '4.2.5'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))
@@ -14,9 +14,17 @@ PODS_DIR = File.join(PROJECT_ROOT_DIR, 'Pods')
 PODS_TARGET_SUPPORT_FILES_DIR = File.join(PODS_DIR, 'Target Support Files')
 
 post_install do |pi|
+  # Code for MapsIndoorsGoogleMaps
   remove_static_framework_duplicate_linkage({
                                             'MapsIndoorsGoogleMaps' => ['GoogleMaps']
                                             })
+  
+  # Code for MapsIndoorsMapbox
+  pi.pods_project.targets.each do |t|
+    t.build_configurations.each do |bc|
+      bc.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+    end
+  end
 end
 
 def remove_static_framework_duplicate_linkage(static_framework_pods)
