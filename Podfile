@@ -7,6 +7,7 @@ target 'MapsIndoorsTemplate-iOS-v4' do
 
   # Pods for MapsIndoorsTemplate-iOS-v4
   pod 'MapsIndoorsGoogleMaps', '4.2.5'
+  pod 'MapsIndoorsMapbox', '4.2.5'
 end
 
 PROJECT_ROOT_DIR = File.dirname(File.expand_path(__FILE__))

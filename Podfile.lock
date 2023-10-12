@@ -4,29 +4,64 @@ PODS:
   - GoogleMaps/Base (7.4.0)
   - GoogleMaps/Maps (7.4.0):
     - GoogleMaps/Base
+  - MapboxCommon (23.7.0)
+  - MapboxCoreMaps (10.15.0):
+    - MapboxCommon (~> 23.7)
+  - MapboxDirections (2.10.0):
+    - Polyline (~> 5.0)
+    - Turf (~> 2.6.1)
+  - MapboxMaps (10.15.0):
+    - MapboxCommon (= 23.7.0)
+    - MapboxCoreMaps (= 10.15.0)
+    - MapboxMobileEvents (= 1.0.10)
+    - Turf (~> 2.0)
+  - MapboxMobileEvents (1.0.10)
   - MapsIndoors (4.2.5)
   - MapsIndoorsCore (4.2.5):
     - MapsIndoors (= 4.2.5)
   - MapsIndoorsGoogleMaps (4.2.5):
     - GoogleMaps (= 7.4.0)
     - MapsIndoorsCore (= 4.2.5)
+  - MapsIndoorsMapbox (4.2.5):
+    - MapboxDirections (= 2.10.0)
+    - MapboxMaps (= 10.15.0)
+    - MapsIndoorsCore (= 4.2.5)
+  - Polyline (5.1.0)
+  - Turf (2.6.1)
 
 DEPENDENCIES:
   - MapsIndoorsGoogleMaps (= 4.2.5)
+  - MapsIndoorsMapbox (= 4.2.5)
 
 SPEC REPOS:
   trunk:
     - GoogleMaps
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxDirections
+    - MapboxMaps
+    - MapboxMobileEvents
     - MapsIndoors
     - MapsIndoorsCore
     - MapsIndoorsGoogleMaps
+    - MapsIndoorsMapbox
+    - Polyline
+    - Turf
 
 SPEC CHECKSUMS:
   GoogleMaps: 032f676450ba0779bd8ce16840690915f84e57ac
+  MapboxCommon: dcbdb86acbcfc1a23efd341ed097c6c63ab532a9
+  MapboxCoreMaps: bcbaac14467616940187f79bba49ca491cd37906
+  MapboxDirections: a620d78a54312c392323ba211df8ae7dd9a28ab4
+  MapboxMaps: 1fd9d97d0e8eceb7a45b9ac8bf87a8922da881a8
+  MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   MapsIndoors: e022b1587fda229cf38307d812c8198ecdf1de25
   MapsIndoorsCore: 776f2e32e7f6cca28cdc471e7f0e9e7278258c4d
   MapsIndoorsGoogleMaps: ac0124d0cf3bc457194f0544478e035336c4f397
+  MapsIndoorsMapbox: 0d8c674ac6c431b7041b67f267e1710716439269
+  Polyline: 2a1f29f87f8d9b7de868940f4f76deb8c678a5b1
+  Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
 
-PODFILE CHECKSUM: 425abf588a442fc201e7926a52d04007c29f166f
+PODFILE CHECKSUM: edf7087d8f389669786f62ad34beb5994218be86
 
 COCOAPODS: 1.13.0

@@ -176,14 +176,30 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/MapboxDirections/MapboxDirections.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MapboxMaps/MapboxMaps.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Turf/Turf.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCommon/MapboxCommon.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCoreMaps/MapboxCoreMaps.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoors/MapsIndoors.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsCore/MapsIndoorsCore.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsGoogleMaps/MapsIndoorsGoogleMaps.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsMapbox/MapsIndoorsMapbox.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/MapboxDirections/MapboxDirections.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MapboxMaps/MapboxMaps.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Turf/Turf.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCommon/MapboxCommon.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxCoreMaps/MapboxCoreMaps.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoors/MapsIndoors.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsCore/MapsIndoorsCore.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsGoogleMaps/MapsIndoorsGoogleMaps.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/MapsIndoorsMapbox/MapsIndoorsMapbox.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
