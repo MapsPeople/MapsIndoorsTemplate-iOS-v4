@@ -47,8 +47,10 @@ struct ContentView: View {
         .onChange(of: viewModel.searchText) { _ in
             viewModel.filterSearchData()
         }
-        .sheet(isPresented: $showingDetailPanel) {
-            LocationDetailPanel(location: selectedLocation)
+        if showingDetailPanel {
+            LocationDetailPanel(location: selectedLocation, isPresented: $showingDetailPanel)
+                .transition(.move(edge: .bottom))
+                .animation(.default)
         }
     }
 }
