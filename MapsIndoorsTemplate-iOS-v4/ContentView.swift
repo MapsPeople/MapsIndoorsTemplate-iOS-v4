@@ -6,6 +6,7 @@ import MapsIndoors
 struct ContentView: View {
     @ObservedObject var viewModel = MapsIndoorsViewModel()
     @State private var showingDetailPanel = false
+    @State private var showingDirectionsPanel = false
     @State private var selectedLocation: MPLocation?
 
     var body: some View {
@@ -48,7 +49,16 @@ struct ContentView: View {
             viewModel.filterSearchData()
         }
         if showingDetailPanel {
-            LocationDetailPanel(location: selectedLocation, isPresented: $showingDetailPanel)
+            LocationDetailPanel(location: selectedLocation, isPresented: $showingDetailPanel) {
+                showingDetailPanel = false
+                showingDirectionsPanel = true
+            }
+            .transition(.move(edge: .bottom))
+            .animation(.default)
+        }
+        
+        if showingDirectionsPanel {
+            DirectionsPanel(location: selectedLocation, isPresented: $showingDirectionsPanel)
                 .transition(.move(edge: .bottom))
                 .animation(.default)
         }

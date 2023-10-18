@@ -19,6 +19,7 @@
 		4DF495942AE03D8B00DCA362 /* SearchRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF495932AE03D8B00DCA362 /* SearchRowView.swift */; };
 		4DF495962AE03DCF00DCA362 /* MapsIndoorsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF495952AE03DCF00DCA362 /* MapsIndoorsViewModel.swift */; };
 		4DF4959A2AE0585900DCA362 /* LocationDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */; };
+		4DF4959C2AE061CC00DCA362 /* DirectionsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4959B2AE061CC00DCA362 /* DirectionsPanel.swift */; };
 		8BF7B82AF0C90173E7272124 /* Pods_MapsIndoorsTemplate_iOS_v4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		4DF495932AE03D8B00DCA362 /* SearchRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRowView.swift; sourceTree = "<group>"; };
 		4DF495952AE03DCF00DCA362 /* MapsIndoorsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsIndoorsViewModel.swift; sourceTree = "<group>"; };
 		4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailPanel.swift; sourceTree = "<group>"; };
+		4DF4959B2AE061CC00DCA362 /* DirectionsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsPanel.swift; sourceTree = "<group>"; };
 		9C128E7C7C9FE80FB0B1C8E6 /* Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; sourceTree = "<group>"; };
 		FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsIndoorsTemplate_iOS_v4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -81,11 +83,12 @@
 				4DF4958B2AE0143900DCA362 /* SearchBar.swift */,
 				4DF495932AE03D8B00DCA362 /* SearchRowView.swift */,
 				4DF495952AE03DCF00DCA362 /* MapsIndoorsViewModel.swift */,
+				4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */,
+				4DF4959B2AE061CC00DCA362 /* DirectionsPanel.swift */,
 				4DF495852AE00FE800DCA362 /* APIKeys.swift */,
 				4DF495872AE0101C00DCA362 /* APIKeys.plist */,
 				4D72756A29D4AD5000BB7556 /* Assets.xcassets */,
 				4D72756C29D4AD5000BB7556 /* Preview Content */,
-				4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */,
 			);
 			path = "MapsIndoorsTemplate-iOS-v4";
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 			files = (
 				4DF495962AE03DCF00DCA362 /* MapsIndoorsViewModel.swift in Sources */,
 				4DF495862AE00FE800DCA362 /* APIKeys.swift in Sources */,
+				4DF4959C2AE061CC00DCA362 /* DirectionsPanel.swift in Sources */,
 				4D72756929D4AD4D00BB7556 /* ContentView.swift in Sources */,
 				4DF495942AE03D8B00DCA362 /* SearchRowView.swift in Sources */,
 				4DF4959A2AE0585900DCA362 /* LocationDetailPanel.swift in Sources */,

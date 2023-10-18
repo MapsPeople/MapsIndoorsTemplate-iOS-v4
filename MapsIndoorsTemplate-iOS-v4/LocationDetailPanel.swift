@@ -4,7 +4,7 @@ import MapsIndoors
 struct LocationDetailPanel: View {
     var location: MPLocation?
     @Binding var isPresented: Bool
-    
+    var showDirections: () -> Void
     var body: some View {
         
         VStack {
@@ -32,7 +32,7 @@ struct LocationDetailPanel: View {
                     .padding(.bottom)
                 
                 Button("Directions") {
-                    // Handle routing and directions here
+                    showDirections()
                 }
                 .padding()
                 
