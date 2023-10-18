@@ -7,7 +7,7 @@ import GoogleMaps
 
 struct MapsIndoorsView: UIViewRepresentable {
     
-    var onMapsIndoorsLoaded: (([MPBuilding], MPMapControl?) -> Void)?
+    var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
     
     func makeUIView(context: Context) -> GMSMapView {
         // Set up the Google Maps view. Centered around The White House.
@@ -22,11 +22,13 @@ struct MapsIndoorsView: UIViewRepresentable {
                 let mapConfig = MPMapConfig(gmsMapView: mapView, googleApiKey: APIKeys.googleMapsAPIKey)
                 let mapControl = MPMapsIndoors.createMapControl(mapConfig: mapConfig)
                 
+                // Fetch all the locations and buildings in the solution
+                let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
                 let buildings = await MPMapsIndoors.shared.buildings()
                 // Select a building from the solution to focus camera on it
                 mapControl?.select(building: buildings.first, behavior: .default)
                 // Notify that MapsIndoors has loaded and return buildings
-                onMapsIndoorsLoaded?(buildings, mapControl)
+                onMapsIndoorsLoaded?(buildings, locations, mapControl)
             } catch {
                 print("Error loading MapsIndoors: \(error.localizedDescription)")
             }
