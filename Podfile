@@ -7,6 +7,7 @@ target 'MapsIndoorsTemplate-iOS-v4' do
 
   # Pods for MapsIndoorsTemplate-iOS-v4
   pod 'MapsIndoorsGoogleMaps', '4.2.5'
+  # Remove the next line if you only want to use Google Maps and vice versa for Mapbox
   pod 'MapsIndoorsMapbox', '4.2.5'
 end
 
