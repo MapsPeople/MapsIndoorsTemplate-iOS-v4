@@ -58,7 +58,7 @@ struct ContentView: View {
         }
         
         if showingDirectionsPanel {
-            DirectionsPanel(location: selectedLocation, allLocations: viewModel.locations, isPresented: $showingDirectionsPanel)
+            DirectionsPanel(viewModel: DirectionsPanelViewModel(location: selectedLocation, allLocations: viewModel.locations, mapControl: viewModel.mapControl!), isPresented: $showingDirectionsPanel)
                 .transition(.move(edge: .bottom))
                 .animation(.default)
         }

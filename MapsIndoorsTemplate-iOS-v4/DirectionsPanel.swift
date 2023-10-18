@@ -1,21 +1,28 @@
 import SwiftUI
 import MapsIndoors
+import MapsIndoorsCore
 
 struct DirectionsPanel: View {
-    var location: MPLocation?
-    var allLocations: [MPLocation]
+    @ObservedObject var viewModel: DirectionsPanelViewModel
     @Binding var isPresented: Bool
     
-    @State private var originSearchText: String = ""
-    @State private var destinationSearchText: String = ""
-    @State private var originSearchResults: [MPLocation] = []
-    @State private var destinationSearchResults: [MPLocation] = []
-    @State private var selectedOrigin: MPLocation?
-    @State private var selectedDestination: MPLocation?
+    var originSearchTextBinding: Binding<String> {
+        Binding(
+            get: { self.viewModel.originSearchText },
+            set: { self.viewModel.originSearchText = $0 }
+        )
+    }
+    
+    var destinationSearchTextBinding: Binding<String> {
+        Binding(
+            get: { self.viewModel.destinationSearchText },
+            set: { self.viewModel.destinationSearchText = $0 }
+        )
+    }
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Directions to \(location?.name ?? "Destination")")
+            Text("Directions to \(viewModel.location?.name ?? "Destination")")
                 .font(.title)
                 .lineLimit(2)
                 .minimumScaleFactor(0.5)
@@ -24,16 +31,18 @@ struct DirectionsPanel: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Origin")
                     .font(.headline)
-                SearchBar(text: $originSearchText)
-                    .onChange(of: originSearchText) { newValue in
-                        originSearchResults = allLocations.filter {
+                SearchBar(text: originSearchTextBinding)
+                    .onChange(of: viewModel.originSearchText) { newValue in
+                        viewModel.originSearchResults = viewModel.allLocations.filter {
                             $0.name.lowercased().contains(newValue.lowercased())
                         }
                     }
-                List(originSearchResults, id: \.locationId) { loc in
+                List(viewModel.originSearchResults, id: \.locationId) { loc in
                     Button(action: {
-                        originSearchText = loc.name
-                        originSearchResults = []
+                        viewModel.originSearchText = loc.name
+                        viewModel.selectedOrigin = loc
+                        viewModel.originSearchResults = []
+                        viewModel.generateRouteIfPossible()
                     }) {
                         Text(loc.name)
                     }
@@ -43,16 +52,18 @@ struct DirectionsPanel: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Destination")
                     .font(.headline)
-                SearchBar(text: $destinationSearchText)
-                    .onChange(of: destinationSearchText) { newValue in
-                        destinationSearchResults = allLocations.filter {
+                SearchBar(text: destinationSearchTextBinding)
+                    .onChange(of: viewModel.destinationSearchText) { newValue in
+                        viewModel.destinationSearchResults = viewModel.allLocations.filter {
                             $0.name.lowercased().contains(newValue.lowercased())
                         }
                     }
-                List(destinationSearchResults, id: \.locationId) { loc in
+                List(viewModel.destinationSearchResults, id: \.locationId) { loc in
                     Button(action: {
-                        destinationSearchText = loc.name
-                        destinationSearchResults = []
+                        viewModel.destinationSearchText = loc.name
+                        viewModel.selectedDestination = loc
+                        viewModel.destinationSearchResults = []
+                        viewModel.generateRouteIfPossible()
                     }) {
                         Text(loc.name)
                     }
@@ -65,7 +76,7 @@ struct DirectionsPanel: View {
         .background(Color.white)
         .cornerRadius(20)
         .frame(maxWidth: .infinity)
-        .frame(height: 500)
+        .frame(height: 700)
         .overlay(
             Button(action: {
                 isPresented = false
@@ -75,8 +86,64 @@ struct DirectionsPanel: View {
                     .padding()
             }, alignment: .topTrailing
         )
+        .onReceive(viewModel.$isRouteRendered) { isRendered in
+            if isRendered {
+                isPresented = false
+            }
+        }
         .onAppear {
-            destinationSearchText = location?.name ?? ""
+            viewModel.destinationSearchText = viewModel.location?.name ?? ""
+            viewModel.selectedDestination = viewModel.location
+        }
+    }
+}
+
+class DirectionsPanelViewModel: ObservableObject {
+    var location: MPLocation?
+    var allLocations: [MPLocation]
+    var mapControl: MPMapControl
+
+    @Published var originSearchText: String = ""
+    @Published var destinationSearchText: String = ""
+    @Published var originSearchResults: [MPLocation] = []
+    @Published var destinationSearchResults: [MPLocation] = []
+    @Published var selectedOrigin: MPLocation?
+    @Published var selectedDestination: MPLocation?
+    
+    @Published var isRouteRendered: Bool = false
+
+    var directionsRenderer: MPDirectionsRenderer?
+
+    init(location: MPLocation?, allLocations: [MPLocation], mapControl: MPMapControl) {
+        self.location = location
+        self.allLocations = allLocations
+        self.mapControl = mapControl
+    }
+
+    func generateRouteIfPossible() {
+        if let origin = selectedOrigin, let destination = selectedDestination {
+            Task {
+                await directions(to: destination, from: origin)
+            }
+        }
+    }
+
+    func directions(to destination: MPLocation, from origin: MPLocation) async {
+        if directionsRenderer == nil {
+            directionsRenderer = mapControl.newDirectionsRenderer()
+        }
+        let directionsQuery = MPDirectionsQuery(origin: origin, destination: destination)
+
+        do {
+            let route = try await MPMapsIndoors.shared.directionsService.routingWith(query: directionsQuery)
+            directionsRenderer?.route = route
+            directionsRenderer?.routeLegIndex = 0
+            DispatchQueue.main.async {
+                self.directionsRenderer?.animate(duration: 5)
+                self.isRouteRendered = true
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
