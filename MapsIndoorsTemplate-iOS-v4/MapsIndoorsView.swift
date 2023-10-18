@@ -12,7 +12,7 @@ struct MapsIndoorsView: UIViewRepresentable {
     var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
     
     func makeUIView(context: Context) -> UIView {
-        let mapEngine = MapEngine.googleMaps
+        let mapEngine = MapEngine.mapbox
         
         switch mapEngine {
         case .googleMaps:
