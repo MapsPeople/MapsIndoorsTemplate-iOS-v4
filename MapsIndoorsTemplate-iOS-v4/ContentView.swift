@@ -29,7 +29,11 @@ struct ContentView: View {
                                     Text(building.name!)
                                         .font(.headline)
                                     if let address = building.address {
-                                        Text(address)
+                                        Text("Address: " + address)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    } else {
+                                        Text("This is a Building")
                                             .font(.subheadline)
                                             .foregroundColor(.gray)
                                     }
@@ -47,7 +51,7 @@ struct ContentView: View {
                                     Text(location.name)
                                         .font(.headline)
                                     if let buildingName = location.building {
-                                        Text(buildingName)
+                                        Text("In Building: " + buildingName)
                                             .font(.subheadline)
                                             .foregroundColor(.gray)
                                     }
