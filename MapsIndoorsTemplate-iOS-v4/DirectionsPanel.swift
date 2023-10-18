@@ -9,6 +9,9 @@ struct DirectionsPanel: View {
     @State private var originSearchText: String = ""
     @State private var destinationSearchText: String = ""
     @State private var originSearchResults: [MPLocation] = []
+    @State private var destinationSearchResults: [MPLocation] = []
+    @State private var selectedOrigin: MPLocation?
+    @State private var selectedDestination: MPLocation?
     
     var body: some View {
         VStack(spacing: 20) {
@@ -41,7 +44,19 @@ struct DirectionsPanel: View {
                 Text("Destination")
                     .font(.headline)
                 SearchBar(text: $destinationSearchText)
-                    //.disabled(true)
+                    .onChange(of: destinationSearchText) { newValue in
+                        destinationSearchResults = allLocations.filter {
+                            $0.name.lowercased().contains(newValue.lowercased())
+                        }
+                    }
+                List(destinationSearchResults, id: \.locationId) { loc in
+                    Button(action: {
+                        destinationSearchText = loc.name
+                        destinationSearchResults = []
+                    }) {
+                        Text(loc.name)
+                    }
+                }
             }
             
             Spacer()
