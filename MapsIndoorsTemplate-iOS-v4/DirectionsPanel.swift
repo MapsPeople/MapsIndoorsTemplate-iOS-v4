@@ -3,16 +3,18 @@ import MapsIndoors
 
 struct DirectionsPanel: View {
     var location: MPLocation?
+    var allLocations: [MPLocation]
     @Binding var isPresented: Bool
     
     @State private var originSearchText: String = ""
     @State private var destinationSearchText: String = ""
+    @State private var originSearchResults: [MPLocation] = []
     
     var body: some View {
         VStack(spacing: 20) {
             Text("Directions to \(location?.name ?? "Destination")")
                 .font(.title)
-                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                .lineLimit(2)
                 .minimumScaleFactor(0.5)
                 .padding()
             
@@ -20,13 +22,26 @@ struct DirectionsPanel: View {
                 Text("Origin")
                     .font(.headline)
                 SearchBar(text: $originSearchText)
+                    .onChange(of: originSearchText) { newValue in
+                        originSearchResults = allLocations.filter {
+                            $0.name.lowercased().contains(newValue.lowercased())
+                        }
+                    }
+                List(originSearchResults, id: \.locationId) { loc in
+                    Button(action: {
+                        originSearchText = loc.name
+                        originSearchResults = []
+                    }) {
+                        Text(loc.name)
+                    }
+                }
             }
             
             VStack(alignment: .leading, spacing: 10) {
                 Text("Destination")
                     .font(.headline)
                 SearchBar(text: $destinationSearchText)
-                    .disabled(true) // Disable editing as this will be pre-filled
+                    //.disabled(true)
             }
             
             Spacer()
@@ -35,7 +50,7 @@ struct DirectionsPanel: View {
         .background(Color.white)
         .cornerRadius(20)
         .frame(maxWidth: .infinity)
-        .frame(height: 250)
+        .frame(height: 500)
         .overlay(
             Button(action: {
                 isPresented = false
