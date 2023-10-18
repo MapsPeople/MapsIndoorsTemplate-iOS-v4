@@ -45,7 +45,7 @@ struct LocationDetailPanel: View {
         .background(Color.white)
         .cornerRadius(20)
         .frame(maxWidth: .infinity)
-        .frame(height: 350)
+        .frame(height: 250)
         .overlay(
             Button(action: {
                 isPresented = false
