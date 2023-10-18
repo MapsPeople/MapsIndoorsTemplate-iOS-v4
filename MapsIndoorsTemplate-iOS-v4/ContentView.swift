@@ -5,6 +5,8 @@ import MapsIndoors
 
 struct ContentView: View {
     @ObservedObject var viewModel = MapsIndoorsViewModel()
+    @State private var showingDetailPanel = false
+    @State private var selectedLocation: MPLocation?
 
     var body: some View {
         VStack {
@@ -26,6 +28,8 @@ struct ContentView: View {
                                 Task {
                                     viewModel.mapControl?.select(location: location, behavior: .default)
                                 }
+                                selectedLocation = location
+                                showingDetailPanel = true
                                 viewModel.searchText = ""  // Clear the search text
                             }
                         }
@@ -42,6 +46,9 @@ struct ContentView: View {
         }
         .onChange(of: viewModel.searchText) { _ in
             viewModel.filterSearchData()
+        }
+        .sheet(isPresented: $showingDetailPanel) {
+            LocationDetailPanel(location: selectedLocation)
         }
     }
 }
