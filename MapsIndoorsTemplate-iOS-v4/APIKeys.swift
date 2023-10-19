@@ -11,10 +11,10 @@ struct APIKeys {
     }()
     
     static let googleMapsAPIKey: String = {
-        return keys?["GoogleMapsAPIKey"] as? String ?? "[YOUR_API_KEY]"
+        return (keys?["GoogleMapsAPIKey"] as? String ?? ProcessInfo.processInfo.environment["GOOGLE_API_KEY"]) ?? "GOOGLE_API_KEY"
     }()
     
     static let mapboxAPIKey: String = {
-        return keys?["MapboxAPIKey"] as? String ?? "[YOUR_API_KEY]"
+        return (keys?["MapboxAPIKey"] as? String ?? ProcessInfo.processInfo.environment["MAPBOX_API_KEY"]) ?? "MAPBOX_API_KEY"
     }()
 }
