@@ -97,14 +97,22 @@ struct SidePanel: View {
                     .font(.title)
                     .padding(.top)
 
-                // List of buildings
-                List(viewModel.buildings, id: \.name) { building in
-                    Button(action: {
-                        viewModel.mapControl?.select(building: building, behavior: .default)
-                    }) {
-                        Text(building.name ?? "---")
+                ScrollView {
+                    VStack(spacing: 10) {
+                        ForEach(viewModel.buildings, id: \.name) { building in
+                            Button(action: {
+                                viewModel.mapControl?.select(building: building, behavior: .default)
+                            }) {
+                                Text(building.name ?? "")
+                                    .padding()
+                                    .background(Color.gray.opacity(0.1))
+                                    .cornerRadius(8)
+                            }
+                        }
                     }
+                    .padding(.bottom)
                 }
+                .frame(maxHeight: 300)
 
                 Spacer()
             }
@@ -117,7 +125,6 @@ struct SidePanel: View {
         }
     }
 }
-
 
 // MARK: - Location Detail Panel View
 struct LocationDetailPanelView: View {

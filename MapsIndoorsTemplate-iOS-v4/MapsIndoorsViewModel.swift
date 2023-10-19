@@ -9,7 +9,6 @@ class MapsIndoorsViewModel: ObservableObject {
     @Published var locations: [MPLocation] = []
     @Published var filteredLocations: [MPLocation] = []
     
-    // Use a regular property for mapControl
     var mapControl: MPMapControl?
 
     func filterSearchData() {
