@@ -14,7 +14,7 @@ struct ContentView: View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
                 MainContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
-                SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry)
+                SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
                 DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel)
                 SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, geometry: geometry)
@@ -74,6 +74,8 @@ struct MainContent: View {
 struct SidePanel: View {
     @Binding var showingSidePanelContent: Bool
     var geometry: GeometryProxy
+    @ObservedObject var viewModel: MapsIndoorsViewModel
+
     var body: some View {
         if showingSidePanelContent {
             VStack(alignment: .leading, spacing: 20) {
@@ -91,20 +93,19 @@ struct SidePanel: View {
                     }
                     Spacer()
                 }
-                Text("Primary Text")
+                Text("Buildings")
                     .font(.title)
                     .padding(.top)
-                
-                Button(action: {
-                    showingSidePanelContent.toggle()
-                }) {
-                    Text("Open View")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+
+                // List of buildings
+                List(viewModel.buildings, id: \.name) { building in
+                    Button(action: {
+                        viewModel.mapControl?.select(building: building, behavior: .default)
+                    }) {
+                        Text(building.name ?? "---")
+                    }
                 }
-                
+
                 Spacer()
             }
             .padding()
@@ -116,6 +117,7 @@ struct SidePanel: View {
         }
     }
 }
+
 
 // MARK: - Location Detail Panel View
 struct LocationDetailPanelView: View {
