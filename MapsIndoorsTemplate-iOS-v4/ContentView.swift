@@ -147,7 +147,7 @@ struct LocationDetailPanelView: View {
                     showingDirectionsPanel = true
                 }
                 .transition(.move(edge: .bottom))
-                .animation(.default)
+                .animation(.default, value: showingDetailPanel)
             }
         }
     }
