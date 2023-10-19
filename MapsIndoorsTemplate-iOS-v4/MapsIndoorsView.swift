@@ -10,7 +10,8 @@ import MapboxMaps
 struct MapsIndoorsView: UIViewRepresentable {
     let mapsIndoorsKey = "d876ff0e60bb430b8fabb145"
     var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
-    
+    var onLocationSelected: ((MPLocation?) -> Void)?
+
     func makeUIView(context: Context) -> UIView {
         let mapEngine = MapEngine.googleMaps
         
@@ -28,6 +29,10 @@ struct MapsIndoorsView: UIViewRepresentable {
                     // Initialize the MPMapConfig with the GMSMapView.
                     let mapConfig = MPMapConfig(gmsMapView: mapView, googleApiKey: APIKeys.googleMapsAPIKey)
                     let mapControl = MPMapsIndoors.createMapControl(mapConfig: mapConfig)
+                    
+                    // Set the coordinator as the delegate
+                    context.coordinator.control = mapControl
+                    mapControl?.delegate = context.coordinator
                     
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
@@ -70,7 +75,26 @@ struct MapsIndoorsView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<MapsIndoorsView>) {
-        // Update the map view if needed
+        
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(nil, parent: self)
+    }
+    
+    class Coordinator: NSObject, MPMapControlDelegate {
+        var control: MPMapControl?
+        var parent: MapsIndoorsView
+        
+        init(_ control: MPMapControl?, parent: MapsIndoorsView) {
+            self.control = control
+            self.parent = parent
+        }
+        
+        func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
+            parent.onLocationSelected?(selectedLocation)
+            return false
+        }
     }
 }
 

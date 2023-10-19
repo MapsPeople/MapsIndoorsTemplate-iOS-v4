@@ -9,6 +9,10 @@ class MapsIndoorsViewModel: ObservableObject {
     @Published var locations: [MPLocation] = []
     @Published var filteredLocations: [MPLocation] = []
     
+    // For MPMapControl Delegate methods
+    @Published var locationDidChange: Bool = false
+    @Published var selectedLocationChanged: MPLocation?
+    
     var mapControl: MPMapControl?
 
     func filterSearchData() {

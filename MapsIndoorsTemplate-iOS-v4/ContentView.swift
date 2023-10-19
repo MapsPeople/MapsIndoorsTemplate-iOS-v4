@@ -13,11 +13,24 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
+                MapsIndoorsView(onMapsIndoorsLoaded: { loadedBuildings, loadedLocations, control in
+                    viewModel.isMapsIndoorsLoaded = true
+                    viewModel.buildings = loadedBuildings
+                    viewModel.locations = loadedLocations
+                    viewModel.mapControl = control
+                }, onLocationSelected: { location in
+                    viewModel.selectedLocationChanged = location
+                    viewModel.locationDidChange.toggle()
+                })
                 MainContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
                 DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel)
                 SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, geometry: geometry)
+            }
+            .onChange(of: viewModel.locationDidChange) { _ in
+                selectedLocation = viewModel.selectedLocationChanged
+                showingDetailPanel = viewModel.selectedLocationChanged != nil
             }
         }
     }
@@ -56,13 +69,6 @@ struct MainContent: View {
                     }
                 }
             }
-            MapsIndoorsView { loadedBuildings, loadedLocations, control in
-                viewModel.isMapsIndoorsLoaded = true
-                viewModel.buildings = loadedBuildings
-                viewModel.locations = loadedLocations
-                viewModel.mapControl = control
-            }
-            .edgesIgnoringSafeArea(.all)
         }
         .onChange(of: viewModel.searchText) { _ in
             viewModel.filterSearchData()
@@ -179,7 +185,7 @@ struct SidePanelToggleButton: View {
                 }) {
                     Image(systemName: "list.bullet")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .frame(width: 20, height: 20)
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
@@ -188,7 +194,7 @@ struct SidePanelToggleButton: View {
                 Spacer()
             }
             .padding(.leading, geometry.safeAreaInsets.leading + 10)
-            .padding(.top, geometry.safeAreaInsets.top + 10)
+            .padding(.top, geometry.safeAreaInsets.top + 30)
         }
     }
 }
