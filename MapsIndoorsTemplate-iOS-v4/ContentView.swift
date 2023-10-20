@@ -24,7 +24,7 @@ struct ContentView: View {
                     viewModel.selectedLocationChanged = location
                     viewModel.locationDidChange.toggle()
                 })
-                MainContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
+                SearchContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
                 DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel, isRouteRendered: $isRouteRendered, renderedRoute: $renderedRoute)
@@ -45,7 +45,7 @@ struct ContentView: View {
     }
 }
 // MARK: - Main Content
-struct MainContent: View {
+struct SearchContent: View {
     @ObservedObject var viewModel: MapsIndoorsViewModel
     @Binding var selectedLocation: MPLocation?
     @Binding var showingDetailPanel: Bool
@@ -90,7 +90,10 @@ struct SidePanel: View {
     @Binding var showingSidePanelContent: Bool
     var geometry: GeometryProxy
     @ObservedObject var viewModel: MapsIndoorsViewModel
-
+    
+    @State private var isLiveDataEnabled: Bool = false
+    @State private var isClusteringEnabled: Bool = false
+    
     var body: some View {
         if showingSidePanelContent {
             VStack(alignment: .leading, spacing: 20) {
@@ -108,11 +111,32 @@ struct SidePanel: View {
                     }
                     Spacer()
                 }
-                Text("Buildings")
-                    .font(.title)
+                Toggle("Live Data", isOn: $isLiveDataEnabled)
                     .padding(.top)
-
+                    .onChange(of: isLiveDataEnabled) { newValue in
+                        if newValue {
+                            let domains = [MPLiveDomainType.occupancy, MPLiveDomainType.temperature, MPLiveDomainType.humidity, MPLiveDomainType.co2, MPLiveDomainType.availability, MPLiveDomainType.count, MPLiveDomainType.position]
+                            
+                            for domain in domains {
+                                viewModel.mapControl?.enableLiveData(domain: domain) { liveUpdate in
+                                    print("Received live update for domain \(domain): \(liveUpdate)")
+                                    if let liveData = liveUpdate.getLiveValueForKey(domain) as? Int {
+                                        print("The live data is for \(liveData)")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                Toggle("Clustering", isOn: $isClusteringEnabled)
+                    .padding(.top)
+                    .onChange(of: isClusteringEnabled) { newValue in
+                        MPMapsIndoors.shared.solution?.config.enableClustering = newValue
+                        viewModel.mapControl?.refresh()
+                    }
                 ScrollView {
+                    Text("Buildings")
+                        .font(.title)
+                        .padding(.top)
                     VStack(spacing: 10) {
                         ForEach(viewModel.buildings, id: \.name) { building in
                             Button(action: {
@@ -140,7 +164,6 @@ struct SidePanel: View {
         }
     }
 }
-
 // MARK: - Location Detail Panel View
 struct LocationDetailPanelView: View {
     @Binding var showingDetailPanel: Bool
