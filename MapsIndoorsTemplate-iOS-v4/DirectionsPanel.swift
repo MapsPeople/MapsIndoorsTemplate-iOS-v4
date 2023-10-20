@@ -114,13 +114,16 @@ class DirectionsPanelViewModel: ObservableObject {
     @Published var isRouteRendered: Bool = false
     var isRouteRenderedBinding: Binding<Bool>?
     
+    var renderedRoute: Binding<MPRoute?>?
+
     var directionsRenderer: MPDirectionsRenderer?
 
-    init(location: MPLocation?, allLocations: [MPLocation], mapControl: MPMapControl, isRouteRendered: Binding<Bool>?) {
+    init(location: MPLocation?, allLocations: [MPLocation], mapControl: MPMapControl, isRouteRendered: Binding<Bool>?, renderedRoute: Binding<MPRoute?>) {
         self.location = location
         self.allLocations = allLocations
         self.mapControl = mapControl
         self.isRouteRenderedBinding = isRouteRendered
+        self.renderedRoute = renderedRoute
     }
 
     func generateRouteIfPossible() {
@@ -144,6 +147,7 @@ class DirectionsPanelViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.directionsRenderer?.animate(duration: 5)
                 self.isRouteRendered = true
+                self.renderedRoute?.wrappedValue = route
             }
         } catch {
             print(error.localizedDescription)
