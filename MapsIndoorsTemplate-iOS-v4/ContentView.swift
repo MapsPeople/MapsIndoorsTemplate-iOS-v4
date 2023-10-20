@@ -36,7 +36,7 @@ struct ContentView: View {
             if isRouteRendered {
                 RouteRenderedPanel()
                     .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
-                    .offset(y: geometry.size.height * 0.75) // Adjust offset to position the panel at the bottom
+                    .offset(y: geometry.size.height * 0.75)
                     .transition(.move(edge: .bottom))
                     .animation(.default)
             }
