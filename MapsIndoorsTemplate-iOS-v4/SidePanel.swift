@@ -73,13 +73,16 @@ struct SidePanel: View {
                         viewModel.mapControl?.refresh()
                     }
                 
-                Picker("Collision Handling", selection: $selectedHandlingState) {
-                    ForEach(CollisionHandlingState.allCases, id: \.self) { state in
-                        Text(state.description).tag(state)
+                VStack(alignment: .center) {
+                    Text("Overlap Policy:")
+                        .font(.headline)
+                    Picker("Collision Handling", selection: $selectedHandlingState) {
+                        ForEach(CollisionHandlingState.allCases, id: \.self) { state in
+                            Text(state.description).tag(state)
+                        }
                     }
+                    .padding(.top)
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.top)
                 .onChange(of: selectedHandlingState) { newValue in
                     switch newValue {
                     case .allowOverLap:
