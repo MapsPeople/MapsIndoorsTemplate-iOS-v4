@@ -23,18 +23,15 @@ struct RouteRenderedPanel: View {
                         ForEach(route.legs, id: \.start_address) { leg in
                             VStack {
                                 Text(leg.distance.stringValue + " meters")
-                                Rectangle()
-                                    .fill(Color.gray)
-                                    .frame(height: 2)
-                                    .overlay(
-                                        HStack {
-                                            startPointImage
-                                                .foregroundColor(.green)
-                                            Spacer()
-                                            endPointImage
-                                                .foregroundColor(.red)
-                                        }
-                                    )
+                                HStack {
+                                    startPointImage
+                                        .foregroundColor(.green)
+                                    Rectangle()
+                                        .fill(Color.gray)
+                                        .frame(width: 150, height: 2)
+                                    endPointImage
+                                        .foregroundColor(.red)
+                                }
                                 Text(leg.duration.stringValue + " seconds")
                             }
                             .padding()
