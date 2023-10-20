@@ -89,6 +89,7 @@ struct DirectionsPanel: View {
         .onReceive(viewModel.$isRouteRendered) { isRendered in
             if isRendered {
                 isPresented = false
+                viewModel.isRouteRenderedBinding?.wrappedValue = true
             }
         }
         .onAppear {
@@ -111,13 +112,15 @@ class DirectionsPanelViewModel: ObservableObject {
     @Published var selectedDestination: MPLocation?
     
     @Published var isRouteRendered: Bool = false
-
+    var isRouteRenderedBinding: Binding<Bool>?
+    
     var directionsRenderer: MPDirectionsRenderer?
 
-    init(location: MPLocation?, allLocations: [MPLocation], mapControl: MPMapControl) {
+    init(location: MPLocation?, allLocations: [MPLocation], mapControl: MPMapControl, isRouteRendered: Binding<Bool>?) {
         self.location = location
         self.allLocations = allLocations
         self.mapControl = mapControl
+        self.isRouteRenderedBinding = isRouteRendered
     }
 
     func generateRouteIfPossible() {

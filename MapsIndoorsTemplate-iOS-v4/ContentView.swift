@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var showingDirectionsPanel = false
     @State private var selectedLocation: MPLocation?
     @State private var showingSidePanelContent = false
+    @State private var isRouteRendered: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,12 +26,19 @@ struct ContentView: View {
                 MainContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
-                DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel)
+                DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel, isRouteRendered: $isRouteRendered)
                 SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, showingDirectionsPanel: $showingDirectionsPanel, geometry: geometry)
             }
             .onChange(of: viewModel.locationDidChange) { _ in
                 selectedLocation = viewModel.selectedLocationChanged
                 showingDetailPanel = viewModel.selectedLocationChanged != nil
+            }
+            if isRouteRendered {
+                RouteRenderedPanel()
+                    .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
+                    .offset(y: geometry.size.height * 0.75) // Adjust offset to position the panel at the bottom
+                    .transition(.move(edge: .bottom))
+                    .animation(.default)
             }
         }
     }
@@ -158,12 +166,13 @@ struct DirectionsPanelView: View {
     @Binding var showingDirectionsPanel: Bool
     var selectedLocation: MPLocation?
     @ObservedObject var viewModel: MapsIndoorsViewModel
+    @Binding var isRouteRendered: Bool
     
     var body: some View {
         if showingDirectionsPanel {
             VStack {
                 Spacer()
-                DirectionsPanel(viewModel: DirectionsPanelViewModel(location: selectedLocation, allLocations: viewModel.locations, mapControl: viewModel.mapControl!), isPresented: $showingDirectionsPanel)
+                DirectionsPanel(viewModel: DirectionsPanelViewModel(location: selectedLocation, allLocations: viewModel.locations, mapControl: viewModel.mapControl!, isRouteRendered: $isRouteRendered), isPresented: $showingDirectionsPanel)
                     .transition(.move(edge: .bottom))
                     .animation(.default, value: showingDirectionsPanel)
             }
@@ -191,6 +200,7 @@ struct SidePanelToggleButton: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
+                        .opacity(0.8)
                 }
                 Spacer()
             }
