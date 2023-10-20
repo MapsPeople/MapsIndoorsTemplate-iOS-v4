@@ -59,6 +59,10 @@ struct MapsIndoorsView: UIViewRepresentable {
                     let mapConfig = MPMapConfig(mapBoxView: mapView, accessToken: APIKeys.mapboxAPIKey)
                     let mapControl = MPMapsIndoors.createMapControl(mapConfig: mapConfig)
                     
+                    // Set the coordinator as the delegate
+                    context.coordinator.control = mapControl
+                    mapControl?.delegate = context.coordinator
+                    
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
                     let buildings = await MPMapsIndoors.shared.buildings()

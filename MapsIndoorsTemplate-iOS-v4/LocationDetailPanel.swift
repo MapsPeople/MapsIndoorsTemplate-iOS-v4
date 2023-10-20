@@ -36,7 +36,7 @@ struct LocationDetailPanel: View {
                 }
                 .padding()
                 
-                Spacer() // Pushes the content to the top
+                Spacer()
             } else {
                 Text("No location selected.")
             }

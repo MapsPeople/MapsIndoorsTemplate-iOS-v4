@@ -127,7 +127,7 @@ struct SidePanel: View {
             .frame(width: 200)
             .shadow(radius: 10)
             .offset(x: showingSidePanelContent ? 0 : -geometry.size.width)
-            .animation(.default)
+            .animation(.default, value: showingSidePanelContent)
         }
     }
 }
@@ -165,7 +165,7 @@ struct DirectionsPanelView: View {
                 Spacer()
                 DirectionsPanel(viewModel: DirectionsPanelViewModel(location: selectedLocation, allLocations: viewModel.locations, mapControl: viewModel.mapControl!), isPresented: $showingDirectionsPanel)
                     .transition(.move(edge: .bottom))
-                    .animation(.default)
+                    .animation(.default, value: showingDirectionsPanel)
             }
         }
     }
