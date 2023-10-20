@@ -9,7 +9,7 @@ struct RouteRenderedPanel: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Route Information")
+            Text("Route Rendered Successfully!")
                 .font(.headline)
                 .padding(.bottom, 10)
             
@@ -21,8 +21,8 @@ struct RouteRenderedPanel: View {
                 Text("Duration: \(route.duration.stringValue) seconds")
                     .font(.subheadline)
                 
-                ScrollView {
-                    VStack {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 15) {
                         ForEach(route.legs, id: \.start_address) { leg in
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
@@ -41,13 +41,10 @@ struct RouteRenderedPanel: View {
                             .padding()
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(10)
-                            .padding(.vertical, 5)
                         }
                     }
-                    .background(Color.yellow) // Debug background color
+                    .padding(.horizontal)
                 }
-                .frame(height: 200) // Explicit frame
-                .background(Color.blue) // Debug background color
                 
                 if !route.warnings.isEmpty {
                     VStack(alignment: .leading, spacing: 5) {
