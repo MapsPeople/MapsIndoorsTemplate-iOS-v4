@@ -42,18 +42,20 @@ struct LocationDetailPanel: View {
             }
         }
         .padding()
-        .background(Color.white)
-        .cornerRadius(20)
+        .background(
+            Color.white
+                .cornerRadius(20)
+                .overlay(
+                    Button(action: {
+                        isPresented = false
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
+                            .padding()
+                    }, alignment: .topTrailing
+                )
+        )
         .frame(maxWidth: .infinity)
         .frame(height: 250)
-        .overlay(
-            Button(action: {
-                isPresented = false
-            }) {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(.gray)
-                    .padding()
-            }, alignment: .topTrailing
-        )
     }
 }

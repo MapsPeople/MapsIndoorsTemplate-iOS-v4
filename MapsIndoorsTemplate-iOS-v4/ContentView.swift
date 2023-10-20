@@ -26,7 +26,7 @@ struct ContentView: View {
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
                 DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel)
-                SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, geometry: geometry)
+                SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, showingDirectionsPanel: $showingDirectionsPanel, geometry: geometry)
             }
             .onChange(of: viewModel.locationDidChange) { _ in
                 selectedLocation = viewModel.selectedLocationChanged
@@ -175,10 +175,11 @@ struct DirectionsPanelView: View {
 struct SidePanelToggleButton: View {
     @ObservedObject var viewModel: MapsIndoorsViewModel
     @Binding var showingSidePanelContent: Bool
+    @Binding var showingDirectionsPanel: Bool
     var geometry: GeometryProxy
     
     var body: some View {
-        if viewModel.isMapsIndoorsLoaded && !showingSidePanelContent {
+        if viewModel.isMapsIndoorsLoaded && !showingSidePanelContent && !showingDirectionsPanel {
             VStack(alignment: .leading) {
                 Button(action: {
                     showingSidePanelContent.toggle()
