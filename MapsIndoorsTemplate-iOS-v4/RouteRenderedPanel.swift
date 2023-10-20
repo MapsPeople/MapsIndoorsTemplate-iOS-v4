@@ -9,34 +9,33 @@ struct RouteRenderedPanel: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Route Rendered Successfully!")
-                .font(.headline)
-                .padding(.bottom, 10)
-            
             if let route = route {
-                Text("Summary: \(route.summary ?? "N/A")")
-                    .font(.subheadline)
-                Text("Distance: \(route.distance.stringValue) meters")
-                    .font(.subheadline)
-                Text("Duration: \(route.duration.stringValue) seconds")
-                    .font(.subheadline)
+                HStack {
+                    Text("Distance: \(route.distance.stringValue) meters")
+                    Spacer()
+                    Text("Duration: \(route.duration.stringValue) seconds")
+                }
+                .font(.subheadline)
+                .padding(.bottom, 10)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
                         ForEach(route.legs, id: \.start_address) { leg in
-                            VStack(alignment: .leading, spacing: 10) {
-                                HStack {
-                                    startPointImage
-                                        .foregroundColor(.green)
-                                    Text(leg.start_address)
-                                }
-                                HStack {
-                                    endPointImage
-                                        .foregroundColor(.red)
-                                    Text(leg.end_address)
-                                }
-                                Text("Leg Distance: \(leg.distance.stringValue) meters")
-                                Text("Leg Duration: \(leg.duration.stringValue) seconds")
+                            VStack {
+                                Text(leg.distance.stringValue + " meters")
+                                Rectangle()
+                                    .fill(Color.gray)
+                                    .frame(height: 2)
+                                    .overlay(
+                                        HStack {
+                                            startPointImage
+                                                .foregroundColor(.green)
+                                            Spacer()
+                                            endPointImage
+                                                .foregroundColor(.red)
+                                        }
+                                    )
+                                Text(leg.duration.stringValue + " seconds")
                             }
                             .padding()
                             .background(Color.gray.opacity(0.1))
@@ -65,4 +64,3 @@ struct RouteRenderedPanel: View {
         .cornerRadius(20)
     }
 }
-
