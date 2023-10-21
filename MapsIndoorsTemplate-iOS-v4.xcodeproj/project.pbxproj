@@ -401,6 +401,8 @@
 				DEVELOPMENT_TEAM = A8V6656PYZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location needed for enhanced indoor mapping features even when the app is in the background.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed for positioning";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -435,6 +437,8 @@
 				DEVELOPMENT_TEAM = A8V6656PYZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location needed for enhanced indoor mapping features even when the app is in the background.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed for positioning";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
