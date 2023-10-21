@@ -126,7 +126,7 @@ struct MapsIndoorsView: UIViewRepresentable {
         }
         
         func isCoordinateVisibleOnMap(coordinate: CLLocationCoordinate2D, mapView: MapView) -> Bool {
-            mapView.mapboxMap.cameraBounds.bounds.contains(forPoint: coordinate, wrappedCoordinates: true)
+            return mapView.bounds.contains(mapView.mapboxMap.point(for: coordinate))
         }
         
         // MPMapControlDelegate method

@@ -30,7 +30,7 @@ struct ContentView: View {
                     userPosition = onUserPositionUpdate
                     isUserPositionWithinView = userLocationInView
                 })
-                if !isUserPositionWithinView {
+                if mpViewModel.isMapsIndoorsLoaded && !isUserPositionWithinView {
                     VStack {
                         Spacer()
                         Button(action: {
