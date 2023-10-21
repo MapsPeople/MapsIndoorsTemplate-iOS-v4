@@ -13,6 +13,12 @@ struct RouteRenderedPanel: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            // This is the "grabber"
+            RoundedRectangle(cornerRadius: 2.5)
+                .frame(width: 40, height: 5)
+                .foregroundColor(Color.gray.opacity(0.5))
+                .padding(.top, 8)
+                .padding(.bottom, 12)
             if let route = route {
                 HStack {
                     Text("Distance: \(route.distance.stringValue) meters")
