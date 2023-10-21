@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var isRouteRendered: Bool = false
     @State private var renderedRoute: MPRoute?
     @State private var isShowingDirectionsPanel: Bool = true
+    @State private var userPosition: MPLocation?
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,7 +25,27 @@ struct ContentView: View {
                 }, onLocationSelected: { location in
                     mpViewModel.selectedLocationChanged = location
                     mpViewModel.locationDidChange.toggle()
+                }, onUserPositionUpdate: { onUserPositionUpdate in
+                    userPosition = onUserPositionUpdate
                 })
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        if let userLocation = userPosition {
+                            // This will animate the camera to the user's position
+                            mpViewModel.mapControl?.select(location: userLocation, behavior: .default)
+                        }
+                    }) {
+                        Image(systemName: "location.circle.fill")
+                            .frame(width: 10, height: 10)
+                            .padding(12)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .shadow(radius: 3)
+                    }
+                    .padding(.bottom, 16)
+                }
+                .frame(maxWidth: .infinity)
                 SearchContent(mpViewModel: mpViewModel, viewModel: SearchContentViewModel(viewModel: mpViewModel), selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel).padding(.top, 40)
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: mpViewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
@@ -40,12 +61,12 @@ struct ContentView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
                     .offset(y: geometry.size.height * 0.75)
                     .transition(.move(edge: .bottom))
-                    .animation(.default)
+                    .animation(.default, value: isShowingDirectionsPanel)
             }
         }
     }
 }
-// MARK: - Main Content
+// MARK: - Search Content
 struct SearchContent: View {
     @ObservedObject var mpViewModel: MapsIndoorsViewModel
     @ObservedObject var viewModel: SearchContentViewModel

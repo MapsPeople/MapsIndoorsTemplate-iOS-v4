@@ -11,6 +11,7 @@ struct MapsIndoorsView: UIViewRepresentable {
     let mapsIndoorsKey = "d876ff0e60bb430b8fabb145"
     var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
     var onLocationSelected: ((MPLocation?) -> Void)?
+    var onUserPositionUpdate: ((MPLocation?) -> Void)?
 
     func makeUIView(context: Context) -> UIView {
         let mapEngine = MapEngine.googleMaps
@@ -118,7 +119,7 @@ struct MapsIndoorsView: UIViewRepresentable {
             return false
         }
         func onPositionUpdate(position: MPPositionResult) {
-            
+            parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate))
         }
     }
 }
