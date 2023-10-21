@@ -6,6 +6,7 @@ import MapsIndoorsGoogleMaps
 import GoogleMaps
 import MapsIndoorsMapbox
 import MapboxMaps
+import MapboxGeocoder
 
 struct MapsIndoorsView: UIViewRepresentable {
     let mapsIndoorsKey = "d876ff0e60bb430b8fabb145"
@@ -14,7 +15,7 @@ struct MapsIndoorsView: UIViewRepresentable {
     var onUserPositionUpdate: ((MPLocation?, Bool) -> Void)?
 
     func makeUIView(context: Context) -> UIView {
-        let mapEngine = MapEngine.googleMaps
+        let mapEngine = MapEngine.mapbox
         
         switch mapEngine {
         case .googleMaps:
@@ -114,7 +115,7 @@ struct MapsIndoorsView: UIViewRepresentable {
             self.parent = parent
             super.init()
         }
-        
+        // MARK: Positioning
         func setupPositionProvider() {
             positionProvider = CoreLocationPositionProvider()
             positionProvider?.setupLocationManager()
@@ -132,11 +133,24 @@ struct MapsIndoorsView: UIViewRepresentable {
             return mapView.bounds.contains(mapView.mapboxMap.point(for: coordinate))
         }
         
-        func reverseGeocode(coordinate: CLLocationCoordinate2D, completion: @escaping (String) -> Void) {
+        func googleReverseGeocode(coordinate: CLLocationCoordinate2D, completion: @escaping (String) -> Void) {
             let geocoder = GMSGeocoder()
             geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
                 if let address = response?.firstResult(), let streetName = address.thoroughfare {
                     completion(streetName)
+                } else {
+                    completion("N/A")
+                }
+            }
+        }
+        
+        func mapboxReverseGeocode(coordinate: CLLocationCoordinate2D, completion: @escaping (String) -> Void) {
+            let geocoder = Geocoder(accessToken: APIKeys.mapboxAPIKey)
+            let options = ReverseGeocodeOptions(coordinate: coordinate)
+            
+            geocoder.geocode(options) { (placemarks, attribution, error) in
+                if let placemark = placemarks?.first {
+                    completion(placemark.name)
                 } else {
                     completion("N/A")
                 }
@@ -152,7 +166,7 @@ struct MapsIndoorsView: UIViewRepresentable {
             return distance > 50.0
         }
         
-        // MPMapControlDelegate method
+        // MARK: MPMapControlDelegate methods
         func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
             parent.onLocationSelected?(selectedLocation)
             return false
@@ -162,7 +176,7 @@ struct MapsIndoorsView: UIViewRepresentable {
             if let usingGoogleMapsView = gmsMapView {
                 // Check if the position has changed significantly before making another request
                 if shouldReverseGeocode(newCoordinate: position.coordinate) {
-                    reverseGeocode(coordinate: position.coordinate) { [self] streetName in
+                    googleReverseGeocode(coordinate: position.coordinate) { [self] streetName in
                         self.lastKnownStreetName = streetName
                         self.lastKnownCoordinate = position.coordinate
                         let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
@@ -175,7 +189,7 @@ struct MapsIndoorsView: UIViewRepresentable {
             }
             if let usingMapboxView = mbMapView {
                 if shouldReverseGeocode(newCoordinate: position.coordinate) {
-                    reverseGeocode(coordinate: position.coordinate) { [self] streetName in
+                    mapboxReverseGeocode(coordinate: position.coordinate) { [self] streetName in
                         self.lastKnownStreetName = streetName
                         self.lastKnownCoordinate = position.coordinate
                         let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)

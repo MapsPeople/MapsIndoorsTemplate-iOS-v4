@@ -10,6 +10,7 @@ PODS:
   - MapboxDirections (2.10.0):
     - Polyline (~> 5.0)
     - Turf (~> 2.6.1)
+  - MapboxGeocoder.swift (0.15.0)
   - MapboxMaps (10.15.0):
     - MapboxCommon (= 23.7.0)
     - MapboxCoreMaps (= 10.15.0)
@@ -30,6 +31,7 @@ PODS:
   - Turf (2.6.1)
 
 DEPENDENCIES:
+  - MapboxGeocoder.swift (~> 0.15)
   - MapsIndoorsGoogleMaps (= 4.2.5)
   - MapsIndoorsMapbox (= 4.2.5)
 
@@ -39,6 +41,7 @@ SPEC REPOS:
     - MapboxCommon
     - MapboxCoreMaps
     - MapboxDirections
+    - MapboxGeocoder.swift
     - MapboxMaps
     - MapboxMobileEvents
     - MapsIndoors
@@ -53,6 +56,7 @@ SPEC CHECKSUMS:
   MapboxCommon: dcbdb86acbcfc1a23efd341ed097c6c63ab532a9
   MapboxCoreMaps: bcbaac14467616940187f79bba49ca491cd37906
   MapboxDirections: a620d78a54312c392323ba211df8ae7dd9a28ab4
+  MapboxGeocoder.swift: 730782e5f4324b7283a0f6c740c180f3086158e2
   MapboxMaps: 1fd9d97d0e8eceb7a45b9ac8bf87a8922da881a8
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
   MapsIndoors: e022b1587fda229cf38307d812c8198ecdf1de25
@@ -62,6 +66,6 @@ SPEC CHECKSUMS:
   Polyline: 2a1f29f87f8d9b7de868940f4f76deb8c678a5b1
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
 
-PODFILE CHECKSUM: edf7087d8f389669786f62ad34beb5994218be86
+PODFILE CHECKSUM: fd5e3f67c748b8c2cb2f3add87eae8bba951430c
 
 COCOAPODS: 1.13.0
