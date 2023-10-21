@@ -4,6 +4,8 @@ import MapsIndoors
 struct RouteRenderedPanel: View {
     var route: MPRoute?
     
+    @Binding var isPresented: Bool
+    
     let startPointImage = Image(systemName: "arrow.up.circle.fill")
     let endPointImage = Image(systemName: "arrow.down.circle.fill")
     
@@ -19,6 +21,14 @@ struct RouteRenderedPanel: View {
                 .foregroundColor(Color.gray.opacity(0.5))
                 .padding(.top, 8)
                 .padding(.bottom, 12)
+            // The "x" button
+            Button(action: {
+                isPresented = false
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.gray)
+                    .padding([.top, .trailing])
+            }
             if let route = route {
                 HStack {
                     Text("Distance: \(route.distance.stringValue) meters")

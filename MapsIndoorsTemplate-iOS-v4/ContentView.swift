@@ -11,7 +11,8 @@ struct ContentView: View {
     @State private var showingSidePanelContent = false
     @State private var isRouteRendered: Bool = false
     @State private var renderedRoute: MPRoute?
-
+    @State private var isShowingDirectionsPanel: Bool = true
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
@@ -34,8 +35,8 @@ struct ContentView: View {
                 selectedLocation = mpViewModel.selectedLocationChanged
                 showingDetailPanel = mpViewModel.selectedLocationChanged != nil
             }
-            if isRouteRendered {
-                RouteRenderedPanel(route: renderedRoute)
+            if isRouteRendered && isShowingDirectionsPanel{
+                RouteRenderedPanel(route: renderedRoute, isPresented: $isShowingDirectionsPanel)
                     .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
                     .offset(y: geometry.size.height * 0.75)
                     .transition(.move(edge: .bottom))
