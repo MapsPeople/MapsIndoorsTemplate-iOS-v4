@@ -24,7 +24,7 @@ struct ContentView: View {
                     mpViewModel.selectedLocationChanged = location
                     mpViewModel.locationDidChange.toggle()
                 })
-                SearchContent(mpViewModel: mpViewModel, viewModel: SearchContentViewModel(viewModel: mpViewModel), selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
+                SearchContent(mpViewModel: mpViewModel, viewModel: SearchContentViewModel(viewModel: mpViewModel), selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel).padding(.top, 40)
                 SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: mpViewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
                 DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: mpViewModel, isRouteRendered: $isRouteRendered, renderedRoute: $renderedRoute)
@@ -152,7 +152,7 @@ struct SidePanelToggleButton: View {
                 Spacer()
             }
             .padding(.leading, geometry.safeAreaInsets.leading + 10)
-            .padding(.top, geometry.safeAreaInsets.top + 30)
+            .padding(.top, geometry.safeAreaInsets.top + 85)
         }
     }
 }
