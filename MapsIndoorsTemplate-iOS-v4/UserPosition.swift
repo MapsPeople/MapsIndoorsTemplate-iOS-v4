@@ -28,10 +28,10 @@ class UserLocation: MPLocation {
     var entityBounds: MapsIndoors.MPGeoBounds
     var entityIsPoint: Bool
     
-    init(name: String, position: CLLocationCoordinate2D) {
+    init(name: String, position: CLLocationCoordinate2D, building: String) {
         self.aliases = ["userPosition", "blueDot"]
         self.baseType = .pointOfInterest
-        self.building = "N/A"
+        self.building = building
         self.categories = ["N/A"]
         self.coordinateBounds = nil
         self.externalId = "N/A"
@@ -48,7 +48,7 @@ class UserLocation: MPLocation {
         self.position = MPPoint(coordinate: position)
         self.fields = [:]
         self.restrictions = nil
-        self.type = "N/A"
+        self.type = "Blue Dot"
         self.venue = "N/A"
         self.entityPosition = MPPoint(coordinate: position)
         

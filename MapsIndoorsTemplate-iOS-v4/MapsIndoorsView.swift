@@ -106,6 +106,9 @@ struct MapsIndoorsView: UIViewRepresentable {
         var gmsMapView: GMSMapView?
         var mbMapView: MapView?
         
+        var lastKnownStreetName: String = "N/A"
+        var lastKnownCoordinate: CLLocationCoordinate2D?
+        
         init(_ control: MPMapControl?, parent: MapsIndoorsView) {
             self.control = control
             self.parent = parent
@@ -129,6 +132,26 @@ struct MapsIndoorsView: UIViewRepresentable {
             return mapView.bounds.contains(mapView.mapboxMap.point(for: coordinate))
         }
         
+        func reverseGeocode(coordinate: CLLocationCoordinate2D, completion: @escaping (String) -> Void) {
+            let geocoder = GMSGeocoder()
+            geocoder.reverseGeocodeCoordinate(coordinate) { response, error in
+                if let address = response?.firstResult(), let streetName = address.thoroughfare {
+                    completion(streetName)
+                } else {
+                    completion("N/A")
+                }
+            }
+        }
+        
+        func shouldReverseGeocode(newCoordinate: CLLocationCoordinate2D) -> Bool {
+            guard let lastCoordinate = lastKnownCoordinate else {
+                return true
+            }
+            let distance = newCoordinate.distance(from: lastCoordinate)
+            // Check if the distance is more than 50 meters (or any threshold you prefer)
+            return distance > 50.0
+        }
+        
         // MPMapControlDelegate method
         func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
             parent.onLocationSelected?(selectedLocation)
@@ -137,12 +160,32 @@ struct MapsIndoorsView: UIViewRepresentable {
         
         func onPositionUpdate(position: MPPositionResult) {
             if let usingGoogleMapsView = gmsMapView {
-                parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate), isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
+                // Check if the position has changed significantly before making another request
+                if shouldReverseGeocode(newCoordinate: position.coordinate) {
+                    reverseGeocode(coordinate: position.coordinate) { [self] streetName in
+                        self.lastKnownStreetName = streetName
+                        self.lastKnownCoordinate = position.coordinate
+                        let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
+                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
+                    }
+                } else {
+                    let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: lastKnownStreetName)
+                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
+                }
             }
             if let usingMapboxView = mbMapView {
-                parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate), isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
+                if shouldReverseGeocode(newCoordinate: position.coordinate) {
+                    reverseGeocode(coordinate: position.coordinate) { [self] streetName in
+                        self.lastKnownStreetName = streetName
+                        self.lastKnownCoordinate = position.coordinate
+                        let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
+                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
+                    }
+                } else {
+                    let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: lastKnownStreetName)
+                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
+                }
             }
-            
         }
     }
 }
@@ -150,4 +193,12 @@ struct MapsIndoorsView: UIViewRepresentable {
 enum MapEngine {
     case googleMaps
     case mapbox
+}
+
+extension CLLocationCoordinate2D {
+    func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
+        let fromLocation = CLLocation(latitude: from.latitude, longitude: from.longitude)
+        let toLocation = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        return fromLocation.distance(from: toLocation)
+    }
 }
