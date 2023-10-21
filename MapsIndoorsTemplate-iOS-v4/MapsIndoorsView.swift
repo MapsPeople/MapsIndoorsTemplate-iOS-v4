@@ -34,6 +34,10 @@ struct MapsIndoorsView: UIViewRepresentable {
                     context.coordinator.control = mapControl
                     mapControl?.delegate = context.coordinator
                     
+                    // Setup positioning
+                    context.coordinator.setupPositionProvider()
+                    mapControl?.showUserPosition = true
+                    
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
                     let buildings = await MPMapsIndoors.shared.buildings()
@@ -63,6 +67,10 @@ struct MapsIndoorsView: UIViewRepresentable {
                     context.coordinator.control = mapControl
                     mapControl?.delegate = context.coordinator
                     
+                    // Setup positioning
+                    context.coordinator.setupPositionProvider()
+                    mapControl?.showUserPosition = true
+                    
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
                     let buildings = await MPMapsIndoors.shared.buildings()
@@ -86,18 +94,31 @@ struct MapsIndoorsView: UIViewRepresentable {
         Coordinator(nil, parent: self)
     }
     
-    class Coordinator: NSObject, MPMapControlDelegate {
+    class Coordinator: NSObject, MPMapControlDelegate, CLLocationManagerDelegate {
         var control: MPMapControl?
         var parent: MapsIndoorsView
+        var positionProvider: CoreLocationPositionProvider?
         
         init(_ control: MPMapControl?, parent: MapsIndoorsView) {
             self.control = control
             self.parent = parent
+            super.init()
         }
         
+        func setupPositionProvider() {
+            positionProvider = CoreLocationPositionProvider()
+            positionProvider?.setupLocationManager()
+            MPMapsIndoors.shared.positionProvider = positionProvider
+            positionProvider?.startPositioning()
+        }
+        
+        // MPMapControlDelegate method
         func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
             parent.onLocationSelected?(selectedLocation)
             return false
+        }
+        func onPositionUpdate(position: MPPositionResult) {
+            
         }
     }
 }
