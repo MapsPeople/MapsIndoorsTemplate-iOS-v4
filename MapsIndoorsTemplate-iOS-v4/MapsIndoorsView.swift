@@ -15,7 +15,7 @@ struct MapsIndoorsView: UIViewRepresentable {
     var onUserPositionUpdate: ((MPLocation?, Bool) -> Void)?
 
     func makeUIView(context: Context) -> UIView {
-        let mapEngine = MapEngine.mapbox
+        let mapEngine = MapType.mapbox
         
         switch mapEngine {
         case .googleMaps:
@@ -100,6 +100,7 @@ struct MapsIndoorsView: UIViewRepresentable {
         Coordinator(nil, parent: self)
     }
     
+    // MARK: - Coordinator Class
     class Coordinator: NSObject, MPMapControlDelegate, CLLocationManagerDelegate {
         var control: MPMapControl?
         var parent: MapsIndoorsView
@@ -110,11 +111,20 @@ struct MapsIndoorsView: UIViewRepresentable {
         var lastKnownStreetName: String = "N/A"
         var lastKnownCoordinate: CLLocationCoordinate2D?
         
+        var currentMapType: MapType {
+            if gmsMapView != nil {
+                return .googleMaps
+            } else {
+                return .mapbox
+            }
+        }
+        
         init(_ control: MPMapControl?, parent: MapsIndoorsView) {
             self.control = control
             self.parent = parent
             super.init()
         }
+        
         // MARK: Positioning
         func setupPositionProvider() {
             positionProvider = CoreLocationPositionProvider()
@@ -166,6 +176,40 @@ struct MapsIndoorsView: UIViewRepresentable {
             return distance > 50.0
         }
         
+        func updateUserPosition(position: MPPositionResult) {
+            let reverseGeocodeFunction: (CLLocationCoordinate2D, @escaping (String) -> Void) -> Void
+            let mapView: UIView
+            
+            switch currentMapType {
+            case .googleMaps:
+                reverseGeocodeFunction = googleReverseGeocode
+                mapView = gmsMapView!
+            case .mapbox:
+                reverseGeocodeFunction = mapboxReverseGeocode
+                mapView = mbMapView!
+            }
+            
+            if shouldReverseGeocode(newCoordinate: position.coordinate) {
+                reverseGeocodeFunction(position.coordinate) { [self] streetName in
+                    self.lastKnownStreetName = streetName
+                    self.lastKnownCoordinate = position.coordinate
+                    let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
+                    if let gmsMapView = mapView as? GMSMapView {
+                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: gmsMapView))
+                    } else if let mbMapView = mapView as? MapView {
+                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: mbMapView))
+                    }
+                }
+            } else {
+                let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: lastKnownStreetName)
+                if let gmsMapView = mapView as? GMSMapView {
+                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: gmsMapView))
+                } else if let mbMapView = mapView as? MapView {
+                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: mbMapView))
+                }
+            }
+        }
+        
         // MARK: MPMapControlDelegate methods
         func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
             parent.onLocationSelected?(selectedLocation)
@@ -173,38 +217,12 @@ struct MapsIndoorsView: UIViewRepresentable {
         }
         
         func onPositionUpdate(position: MPPositionResult) {
-            if let usingGoogleMapsView = gmsMapView {
-                // Check if the position has changed significantly before making another request
-                if shouldReverseGeocode(newCoordinate: position.coordinate) {
-                    googleReverseGeocode(coordinate: position.coordinate) { [self] streetName in
-                        self.lastKnownStreetName = streetName
-                        self.lastKnownCoordinate = position.coordinate
-                        let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
-                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
-                    }
-                } else {
-                    let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: lastKnownStreetName)
-                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
-                }
-            }
-            if let usingMapboxView = mbMapView {
-                if shouldReverseGeocode(newCoordinate: position.coordinate) {
-                    mapboxReverseGeocode(coordinate: position.coordinate) { [self] streetName in
-                        self.lastKnownStreetName = streetName
-                        self.lastKnownCoordinate = position.coordinate
-                        let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: streetName)
-                        parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
-                    }
-                } else {
-                    let userLocation = UserLocation(name: "Current Location", position: position.coordinate, building: lastKnownStreetName)
-                    parent.onUserPositionUpdate?(userLocation, isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
-                }
-            }
+            updateUserPosition(position: position)
         }
     }
 }
 
-enum MapEngine {
+enum MapType {
     case googleMaps
     case mapbox
 }

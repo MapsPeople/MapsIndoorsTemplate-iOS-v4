@@ -60,7 +60,7 @@ struct ContentView: View {
                 selectedLocation = mpViewModel.selectedLocationChanged
                 showingDetailPanel = mpViewModel.selectedLocationChanged != nil
             }
-            if isRouteRendered && isShowingDirectionsPanel{
+            if isRouteRendered && isShowingDirectionsPanel && !showingDetailPanel{
                 RouteRenderedPanel(route: renderedRoute, isPresented: $isShowingDirectionsPanel)
                     .frame(width: geometry.size.width, height: geometry.size.height * 0.25)
                     .offset(y: geometry.size.height * 0.75)
