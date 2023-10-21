@@ -34,7 +34,7 @@ struct LocationRowView: View {
                 Text(location.name)
                     .font(.headline)
                 if let buildingName = location.building {
-                    Text("In Building: " + buildingName)
+                    Text("Building: " + buildingName + " Floor: " + location.floorIndex.description)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 } else {

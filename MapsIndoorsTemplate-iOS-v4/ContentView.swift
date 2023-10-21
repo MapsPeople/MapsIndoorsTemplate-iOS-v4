@@ -4,7 +4,7 @@ import MapsIndoorsCore
 import MapsIndoors
 
 struct ContentView: View {
-    @ObservedObject var viewModel = MapsIndoorsViewModel()
+    @ObservedObject var mpViewModel = MapsIndoorsViewModel()
     @State private var showingDetailPanel = false
     @State private var showingDirectionsPanel = false
     @State private var selectedLocation: MPLocation?
@@ -16,23 +16,23 @@ struct ContentView: View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
                 MapsIndoorsView(onMapsIndoorsLoaded: { loadedBuildings, loadedLocations, control in
-                    viewModel.isMapsIndoorsLoaded = true
-                    viewModel.buildings = loadedBuildings
-                    viewModel.locations = loadedLocations
-                    viewModel.mapControl = control
+                    mpViewModel.isMapsIndoorsLoaded = true
+                    mpViewModel.buildings = loadedBuildings
+                    mpViewModel.locations = loadedLocations
+                    mpViewModel.mapControl = control
                 }, onLocationSelected: { location in
-                    viewModel.selectedLocationChanged = location
-                    viewModel.locationDidChange.toggle()
+                    mpViewModel.selectedLocationChanged = location
+                    mpViewModel.locationDidChange.toggle()
                 })
-                SearchContent(viewModel: viewModel, selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
-                SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: viewModel)
+                SearchContent(mpViewModel: mpViewModel, viewModel: SearchContentViewModel(viewModel: mpViewModel), selectedLocation: $selectedLocation, showingDetailPanel: $showingDetailPanel)
+                SidePanel(showingSidePanelContent: $showingSidePanelContent, geometry: geometry, viewModel: mpViewModel)
                 LocationDetailPanelView(showingDetailPanel: $showingDetailPanel, showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation)
-                DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: viewModel, isRouteRendered: $isRouteRendered, renderedRoute: $renderedRoute)
-                SidePanelToggleButton(viewModel: viewModel, showingSidePanelContent: $showingSidePanelContent, showingDirectionsPanel: $showingDirectionsPanel, geometry: geometry)
+                DirectionsPanelView(showingDirectionsPanel: $showingDirectionsPanel, selectedLocation: selectedLocation, viewModel: mpViewModel, isRouteRendered: $isRouteRendered, renderedRoute: $renderedRoute)
+                SidePanelToggleButton(viewModel: mpViewModel, showingSidePanelContent: $showingSidePanelContent, showingDirectionsPanel: $showingDirectionsPanel, geometry: geometry)
             }
-            .onChange(of: viewModel.locationDidChange) { _ in
-                selectedLocation = viewModel.selectedLocationChanged
-                showingDetailPanel = viewModel.selectedLocationChanged != nil
+            .onChange(of: mpViewModel.locationDidChange) { _ in
+                selectedLocation = mpViewModel.selectedLocationChanged
+                showingDetailPanel = mpViewModel.selectedLocationChanged != nil
             }
             if isRouteRendered {
                 RouteRenderedPanel(route: renderedRoute)
@@ -46,13 +46,14 @@ struct ContentView: View {
 }
 // MARK: - Main Content
 struct SearchContent: View {
-    @ObservedObject var viewModel: MapsIndoorsViewModel
+    @ObservedObject var mpViewModel: MapsIndoorsViewModel
+    @ObservedObject var viewModel: SearchContentViewModel
     @Binding var selectedLocation: MPLocation?
     @Binding var showingDetailPanel: Bool
     
     var body: some View {
         VStack {
-            if viewModel.isMapsIndoorsLoaded {
+            if mpViewModel.isMapsIndoorsLoaded {
                 SearchBar(text: $viewModel.searchText)
                     .padding()
                 if !viewModel.filteredBuildings.isEmpty || !viewModel.filteredLocations.isEmpty {
@@ -60,7 +61,7 @@ struct SearchContent: View {
                         ForEach(viewModel.filteredBuildings, id: \.buildingId) { building in
                             BuildingRowView(building: building) {
                                 Task {
-                                    viewModel.mapControl?.select(building: building, behavior: .default)
+                                    mpViewModel.mapControl?.select(building: building, behavior: .default)
                                 }
                                 viewModel.searchText = ""  // Clear the search text
                             }
@@ -68,7 +69,7 @@ struct SearchContent: View {
                         ForEach(viewModel.filteredLocations, id: \.locationId) { location in
                             LocationRowView(location: location) {
                                 Task {
-                                    viewModel.mapControl?.select(location: location, behavior: .default)
+                                    mpViewModel.mapControl?.select(location: location, behavior: .default)
                                 }
                                 selectedLocation = location
                                 showingDetailPanel = true
