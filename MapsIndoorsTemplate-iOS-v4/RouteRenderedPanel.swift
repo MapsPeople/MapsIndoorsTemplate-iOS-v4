@@ -6,7 +6,11 @@ struct RouteRenderedPanel: View {
     
     let startPointImage = Image(systemName: "arrow.up.circle.fill")
     let endPointImage = Image(systemName: "arrow.down.circle.fill")
-
+    
+    // To keep track of the offset and translation
+    @State private var offset: CGFloat = 0.0
+    @State private var dragTranslation: CGFloat = 0.0
+    
     var body: some View {
         VStack(spacing: 20) {
             if let route = route {
@@ -59,5 +63,21 @@ struct RouteRenderedPanel: View {
         .padding()
         .background(Color.white)
         .cornerRadius(20)
+        .offset(y: offset)
+        .gesture(
+            DragGesture()
+                .onChanged { gesture in
+                    dragTranslation = gesture.translation.height
+                }
+                .onEnded { gesture in
+                    // Logic to determine if view should collapse or expand
+                    let dragDistance = gesture.translation.height
+                    if dragDistance > 100 { // Arbitrary value, adjust as needed
+                        offset = 200 // Adjust the value to collapse as much as you want
+                    } else if dragDistance < -100 {
+                        offset = 0 // Reset the offset to original position
+                    }
+                }
+        )
     }
 }
