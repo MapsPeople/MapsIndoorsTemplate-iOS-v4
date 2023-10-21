@@ -11,7 +11,7 @@ struct MapsIndoorsView: UIViewRepresentable {
     let mapsIndoorsKey = "d876ff0e60bb430b8fabb145"
     var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
     var onLocationSelected: ((MPLocation?) -> Void)?
-    var onUserPositionUpdate: ((MPLocation?) -> Void)?
+    var onUserPositionUpdate: ((MPLocation?, Bool) -> Void)?
 
     func makeUIView(context: Context) -> UIView {
         let mapEngine = MapEngine.googleMaps
@@ -38,6 +38,8 @@ struct MapsIndoorsView: UIViewRepresentable {
                     // Setup positioning
                     context.coordinator.setupPositionProvider()
                     mapControl?.showUserPosition = true
+                    
+                    context.coordinator.gmsMapView = mapView
                     
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
@@ -72,6 +74,8 @@ struct MapsIndoorsView: UIViewRepresentable {
                     context.coordinator.setupPositionProvider()
                     mapControl?.showUserPosition = true
                     
+                    context.coordinator.mbMapView = mapView
+                    
                     // Fetch all the locations and buildings in the solution
                     let locations = await MPMapsIndoors.shared.locationsWith(query: MPQuery(), filter: MPFilter())
                     let buildings = await MPMapsIndoors.shared.buildings()
@@ -99,6 +103,8 @@ struct MapsIndoorsView: UIViewRepresentable {
         var control: MPMapControl?
         var parent: MapsIndoorsView
         var positionProvider: CoreLocationPositionProvider?
+        var gmsMapView: GMSMapView?
+        var mbMapView: MapView?
         
         init(_ control: MPMapControl?, parent: MapsIndoorsView) {
             self.control = control
@@ -113,13 +119,30 @@ struct MapsIndoorsView: UIViewRepresentable {
             positionProvider?.startPositioning()
         }
         
+        func isCoordinateVisibleOnMap(coordinate: CLLocationCoordinate2D, mapView: GMSMapView) -> Bool {
+            let visibleRegion = mapView.projection.visibleRegion()
+            let bounds = GMSCoordinateBounds(region: visibleRegion)
+            return bounds.contains(coordinate)
+        }
+        
+        func isCoordinateVisibleOnMap(coordinate: CLLocationCoordinate2D, mapView: MapView) -> Bool {
+            mapView.mapboxMap.cameraBounds.bounds.contains(forPoint: coordinate, wrappedCoordinates: true)
+        }
+        
         // MPMapControlDelegate method
         func didChange(selectedLocation: MapsIndoors.MPLocation?) -> Bool {
             parent.onLocationSelected?(selectedLocation)
             return false
         }
+        
         func onPositionUpdate(position: MPPositionResult) {
-            parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate))
+            if let usingGoogleMapsView = gmsMapView {
+                parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate), isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingGoogleMapsView))
+            }
+            if let usingMapboxView = mbMapView {
+                parent.onUserPositionUpdate?(UserLocation(name: "Current_Location", position: position.coordinate), isCoordinateVisibleOnMap(coordinate: position.coordinate, mapView: usingMapboxView))
+            }
+            
         }
     }
 }

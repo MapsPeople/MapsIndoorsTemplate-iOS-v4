@@ -148,6 +148,7 @@ class DirectionsPanelViewModel: ObservableObject {
                 self.directionsRenderer?.animate(duration: 5)
                 self.isRouteRendered = true
                 self.renderedRoute?.wrappedValue = route
+                self.mapControl.refresh()
             }
         } catch {
             print(error.localizedDescription)

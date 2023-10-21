@@ -83,7 +83,7 @@ struct RouteRenderedPanel: View {
                         // Logic to determine if view should collapse or expand
                         let dragDistance = gesture.translation.height
                         if dragDistance > 100 { // Arbitrary value, adjust as needed
-                            offset = 200 // Adjust the value to collapse as much as you want
+                            offset = 170 // Adjust the value to collapse as much as you want
                         } else if dragDistance < -100 {
                             offset = 0 // Reset the offset to original position
                         }

@@ -9,6 +9,7 @@ struct MapsIndoorsTemplate_iOS_v4App: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light) // TODO: Temporary measure
         }
     }
 }
