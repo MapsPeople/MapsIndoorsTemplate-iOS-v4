@@ -9,7 +9,7 @@ import MapboxMaps
 import MapboxGeocoder
 
 struct MapsIndoorsView: UIViewRepresentable {
-    let mapsIndoorsKey = "d876ff0e60bb430b8fabb145"
+    let mapsIndoorsKey = "mapspeople3d"
     var onMapsIndoorsLoaded: (([MPBuilding], [MPLocation], MPMapControl?) -> Void)?
     var onLocationSelected: ((MPLocation?) -> Void)?
     var onUserPositionUpdate: ((MPLocation?, Bool) -> Void)?
@@ -19,9 +19,8 @@ struct MapsIndoorsView: UIViewRepresentable {
         
         switch mapEngine {
         case .googleMaps:
-            // Set up the Google Maps view. Centered around The White House.
-            let camera = GMSCameraPosition.camera(withLatitude: 38.8977, longitude: -77.0365, zoom: 10)
-            let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+            GMSServices.provideAPIKey(APIKeys.googleMapsAPIKey)
+            let mapView = GMSMapView()
             
             Task {
                 do {
@@ -54,11 +53,10 @@ struct MapsIndoorsView: UIViewRepresentable {
                 }
             }
             return mapView
-        case .mapbox:
-            let myResourceOptions = ResourceOptions(accessToken: APIKeys.mapboxAPIKey)
-            let myMapInitOptions = MapInitOptions(resourceOptions: myResourceOptions, styleURI: .light)
-            let mapView = MapView(frame: CGRect.zero, mapInitOptions: myMapInitOptions)
             
+        case .mapbox:
+            let mapView = MapView(frame: CGRect.zero, mapInitOptions: MapInitOptions())
+
             Task {
                 do {
                     // Load MapsIndoors with the MapsIndoors API key.

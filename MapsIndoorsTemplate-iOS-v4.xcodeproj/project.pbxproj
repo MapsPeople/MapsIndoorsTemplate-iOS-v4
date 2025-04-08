@@ -23,11 +23,13 @@
 		4DF495962AE03DCF00DCA362 /* MapsIndoorsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF495952AE03DCF00DCA362 /* MapsIndoorsViewModel.swift */; };
 		4DF4959A2AE0585900DCA362 /* LocationDetailPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */; };
 		4DF4959C2AE061CC00DCA362 /* DirectionsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4959B2AE061CC00DCA362 /* DirectionsPanel.swift */; };
-		8BF7B82AF0C90173E7272124 /* Pods_MapsIndoorsTemplate_iOS_v4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */; };
+		BD73B9F52DA5485400464C3B /* MapsIndoorsMapbox in Frameworks */ = {isa = PBXBuildFile; productRef = BD73B9F42DA5485400464C3B /* MapsIndoorsMapbox */; };
+		BD73B9F82DA5486000464C3B /* MapsIndoorsGoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = BD73B9F72DA5486000464C3B /* MapsIndoorsGoogleMaps */; };
+		BD73B9FB2DA548FC00464C3B /* MapboxGeocoder in Frameworks */ = {isa = PBXBuildFile; productRef = BD73B9FA2DA548FC00464C3B /* MapboxGeocoder */; };
+		BDF7183D2B7E940D00C12EF5 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDF7183C2B7E940D00C12EF5 /* APIKeys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4AA4F6F3731A6936525EC635 /* Pods-MapsIndoorsTemplate-iOS-v4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsTemplate-iOS-v4.debug.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4.debug.xcconfig"; sourceTree = "<group>"; };
 		4D695A832AE392B100B59757 /* CoreLocationPositionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationPositionProvider.swift; sourceTree = "<group>"; };
 		4D72756329D4AD4D00BB7556 /* MapsIndoorsTemplate-iOS-v4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MapsIndoorsTemplate-iOS-v4.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D72756629D4AD4D00BB7556 /* MapsIndoorsTemplate_iOS_v4App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsIndoorsTemplate_iOS_v4App.swift; sourceTree = "<group>"; };
@@ -45,8 +47,7 @@
 		4DF495952AE03DCF00DCA362 /* MapsIndoorsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsIndoorsViewModel.swift; sourceTree = "<group>"; };
 		4DF495992AE0585900DCA362 /* LocationDetailPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailPanel.swift; sourceTree = "<group>"; };
 		4DF4959B2AE061CC00DCA362 /* DirectionsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsPanel.swift; sourceTree = "<group>"; };
-		9C128E7C7C9FE80FB0B1C8E6 /* Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; path = "Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig"; sourceTree = "<group>"; };
-		FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsIndoorsTemplate_iOS_v4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDF7183C2B7E940D00C12EF5 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +55,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BF7B82AF0C90173E7272124 /* Pods_MapsIndoorsTemplate_iOS_v4.framework in Frameworks */,
+				BD73B9F82DA5486000464C3B /* MapsIndoorsGoogleMaps in Frameworks */,
+				BD73B9FB2DA548FC00464C3B /* MapboxGeocoder in Frameworks */,
+				BD73B9F52DA5485400464C3B /* MapsIndoorsMapbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,8 +69,6 @@
 			children = (
 				4D72756529D4AD4D00BB7556 /* MapsIndoorsTemplate-iOS-v4 */,
 				4D72756429D4AD4D00BB7556 /* Products */,
-				ABFC12A373887127B78CAFE5 /* Pods */,
-				DF3B9E0E67BDE51DC5A79285 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +83,7 @@
 		4D72756529D4AD4D00BB7556 /* MapsIndoorsTemplate-iOS-v4 */ = {
 			isa = PBXGroup;
 			children = (
+				BDF7183C2B7E940D00C12EF5 /* APIKeys.plist */,
 				4D72756629D4AD4D00BB7556 /* MapsIndoorsTemplate_iOS_v4App.swift */,
 				4D72757429D4B0E100BB7556 /* MapsIndoorsView.swift */,
 				4D72756829D4AD4D00BB7556 /* ContentView.swift */,
@@ -110,23 +112,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		ABFC12A373887127B78CAFE5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4AA4F6F3731A6936525EC635 /* Pods-MapsIndoorsTemplate-iOS-v4.debug.xcconfig */,
-				9C128E7C7C9FE80FB0B1C8E6 /* Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		DF3B9E0E67BDE51DC5A79285 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FAA0C63CCF3591D57BB38717 /* Pods_MapsIndoorsTemplate_iOS_v4.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,12 +119,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D72757129D4AD5000BB7556 /* Build configuration list for PBXNativeTarget "MapsIndoorsTemplate-iOS-v4" */;
 			buildPhases = (
-				1496D904B7007B60EBCF6196 /* [CP] Check Pods Manifest.lock */,
 				4D72755F29D4AD4D00BB7556 /* Sources */,
 				4D72756029D4AD4D00BB7556 /* Frameworks */,
 				4D72756129D4AD4D00BB7556 /* Resources */,
-				B9718FB3E8023A6592CC05EC /* [CP] Embed Pods Frameworks */,
-				A67F3525741C898111F5C95F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -174,6 +156,11 @@
 				Base,
 			);
 			mainGroup = 4D72755A29D4AD4D00BB7556;
+			packageReferences = (
+				BD73B9F32DA5485400464C3B /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */,
+				BD73B9F62DA5486000464C3B /* XCRemoteSwiftPackageReference "mapsindoors-googlemaps-ios" */,
+				BD73B9F92DA548FC00464C3B /* XCRemoteSwiftPackageReference "MapboxGeocoder.swift" */,
+			);
 			productRefGroup = 4D72756429D4AD4D00BB7556 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -188,71 +175,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDF7183D2B7E940D00C12EF5 /* APIKeys.plist in Resources */,
 				4D72756E29D4AD5000BB7556 /* Preview Assets.xcassets in Resources */,
 				4D72756B29D4AD5000BB7556 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1496D904B7007B60EBCF6196 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MapsIndoorsTemplate-iOS-v4-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A67F3525741C898111F5C95F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B9718FB3E8023A6592CC05EC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapsIndoorsTemplate-iOS-v4/Pods-MapsIndoorsTemplate-iOS-v4-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4D72755F29D4AD4D00BB7556 /* Sources */ = {
@@ -395,7 +324,6 @@
 		};
 		4D72757229D4AD5000BB7556 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4AA4F6F3731A6936525EC635 /* Pods-MapsIndoorsTemplate-iOS-v4.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -431,7 +359,6 @@
 		};
 		4D72757329D4AD5000BB7556 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C128E7C7C9FE80FB0B1C8E6 /* Pods-MapsIndoorsTemplate-iOS-v4.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -487,6 +414,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD73B9F32DA5485400464C3B /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MapsPeople/mapsindoors-mapbox-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.7;
+			};
+		};
+		BD73B9F62DA5486000464C3B /* XCRemoteSwiftPackageReference "mapsindoors-googlemaps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MapsPeople/mapsindoors-googlemaps-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.7;
+			};
+		};
+		BD73B9F92DA548FC00464C3B /* XCRemoteSwiftPackageReference "MapboxGeocoder.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/MapboxGeocoder.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD73B9F42DA5485400464C3B /* MapsIndoorsMapbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD73B9F32DA5485400464C3B /* XCRemoteSwiftPackageReference "mapsindoors-mapbox-ios" */;
+			productName = MapsIndoorsMapbox;
+		};
+		BD73B9F72DA5486000464C3B /* MapsIndoorsGoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD73B9F62DA5486000464C3B /* XCRemoteSwiftPackageReference "mapsindoors-googlemaps-ios" */;
+			productName = MapsIndoorsGoogleMaps;
+		};
+		BD73B9FA2DA548FC00464C3B /* MapboxGeocoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD73B9F92DA548FC00464C3B /* XCRemoteSwiftPackageReference "MapboxGeocoder.swift" */;
+			productName = MapboxGeocoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4D72755B29D4AD4D00BB7556 /* Project object */;
 }
