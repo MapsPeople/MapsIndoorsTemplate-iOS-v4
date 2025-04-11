@@ -7,14 +7,14 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- Xcode version 13+
-- iOS version 13+
+- Xcode version 15+
+- iOS version 14+
 
 ### Installing
 
 1. Clone the repository to your local machine.
 2. Navigate to the demo app directory.
-3. Open the `.xcworkspace` file in Xcode.
+3. Open the `MapsIndoorsTemplate-iOS-v4.xcodeproj` file in Xcode.
 
 ### Configuration
 

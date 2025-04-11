@@ -3,6 +3,12 @@ import CoreLocation
 import MapsIndoors
 
 class UserLocation: MPLocation {
+    var locationSettings: MapsIndoors.MPLocationSettings?
+    
+    var state: MapsIndoors.MPLocationState = .none
+    
+    var typeRef: (MapsIndoors.MPType)?
+    
     var aliases: [String]
     var baseType: MapsIndoors.MPLocationBaseType
     var building: String?
